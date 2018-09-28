@@ -11,14 +11,38 @@ public class Shop extends MouseAdapter {
 	Handler handler;
 	HUD hud;
 	
-	private int B1 = 100;
-	private int B2 = 100;
-	private int B3 = 100;
+	public int initPriceB1 = 300;
+	public int initPriceB2 = 300;
+	public int initPriceB3 = 500;
+
+	private int B1 = initPriceB1;
+	private int B2 = initPriceB2;
+	private int B3 = initPriceB3;
 	
 	public Shop(Handler handler, HUD hud) {
 		this.handler = handler;
 		this.hud = hud;
 	}
+	
+	public int getB1() {
+		return B1;
+	}
+	public void setB1(int b1) {
+		B1 = b1;
+	}
+	public int getB2() {
+		return B2;
+	}
+	public void setB2(int b2) {
+		B2 = b2;
+	}
+	public int getB3() {
+		return B3;
+	}
+	public void setB3(int b3) {
+		B3 = b3;
+	}	
+	
 	public void render(Graphics g) {
 		g.setColor(Color.white);
 		g.setFont(new Font("Arial", 0, 48));
@@ -77,4 +101,6 @@ public class Shop extends MouseAdapter {
 			}
 		}
 	}
+	
+	
 }

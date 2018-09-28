@@ -15,6 +15,7 @@ public class Menu extends MouseAdapter {
 	private Handler handler;
 	private Random r = new Random();
 	private HUD hud;
+	private Shop shop;
 	
 	public Menu(Game game, Handler handler, HUD hud) {
 		this.game = game;
@@ -52,6 +53,13 @@ public class Menu extends MouseAdapter {
 			if(mouseOver(mx, my, Game.WIDTH / 2 - 100, 150, 200, 64)) {
 				Game.gameState = STATE.Game;
 				handler.addObject(new Player(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player, handler));
+				HUD.HEALTH += hud.bounds / 2;
+				hud.setScore(0);
+				hud.setLevel(1);
+				hud.bounds = 0;
+				//shop.setB1(shop.initPriceB1);
+				//shop.setB2(shop.initPriceB2);
+				//shop.setB3(shop.initPriceB3);
 				handler.clearEnemies();
 				handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH - 38), r.nextInt(Game.HEIGHT - 62), ID.BasicEnemy, handler));
 				
