@@ -154,14 +154,26 @@ public class Menu extends MouseAdapter {
 			g.drawRect(Game.WIDTH / 2 - 100, 350, 200, 64);
 			g.drawString("Back", 287, 390);
 		}else if(Game.gameState == STATE.End) {
-			g.drawString("Game Over", 185, 70);
-			
-			g.setFont(fnt3);
-			g.drawString("You lost with a score of " + hud.getScore(), 150, 250);
-			
-			g.setFont(fnt2);
-			g.drawRect(Game.WIDTH / 2 - 105, 350, 210, 64);
-			g.drawString("Back to Menu", 224, 390);
+			if (HUD.HEALTH > 0) {
+				// win code
+				g.drawString("You WON!", 185, 70);
+				g.setFont(fnt3);
+				g.drawString("You won with a score of " + hud.getScore(), 150, 250);
+
+				g.setFont(fnt2);
+				g.drawRect(Game.WIDTH / 2 - 105, 350, 210, 64);
+				g.drawString("Back to Menu", 224, 390);
+				
+			} else {
+				g.drawString("Game Over", 185, 70);
+				
+				g.setFont(fnt3);
+				g.drawString("You lost with a score of " + hud.getScore(), 150, 250);
+				
+				g.setFont(fnt2);
+				g.drawRect(Game.WIDTH / 2 - 105, 350, 210, 64);
+				g.drawString("Back to Menu", 224, 390);
+			}
 		}else if(Game.gameState == STATE.Select) {
 			g.setFont(fnt);
 			g.drawString("Select Difficulty", 130, 70);

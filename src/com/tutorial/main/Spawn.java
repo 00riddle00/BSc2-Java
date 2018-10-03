@@ -2,6 +2,10 @@ package com.tutorial.main;
 
 import java.util.Random;
 
+import org.lwjgl.opengl.GREMEDYStringMarker;
+
+import com.tutorial.main.Game.STATE;
+
 public class Spawn {
 	
 	private Handler handler;
@@ -43,7 +47,11 @@ public class Spawn {
 				else if(hud.getLevel() == 10) {
 					handler.clearEnemies();
 					handler.addObject(new EnemyBoss((Game.WIDTH / 2) - 48, -120, ID.EnemyBoss, handler));
+				} else if(hud.getLevel() == 8) {
+					handler.clearEnemies();
+					Game.gameState = STATE.End;
 				}
+				
 			}else if(game.diff == 1) {
 				if(hud.getLevel() == 2) {
 					handler.addObject(new HardEnemy(r.nextInt(Game.WIDTH - 38), r.nextInt(Game.HEIGHT - 62), ID.BasicEnemy, handler));
