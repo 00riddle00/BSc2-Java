@@ -48,8 +48,8 @@ public class Spawn {
 					handler.clearEnemies();
 					handler.addObject(new EnemyBoss((Game.WIDTH / 2) - 48, -120, ID.EnemyBoss, handler));
 				} else if(hud.getLevel() == 8) {
+					Game.gameState = STATE.Win;
 					handler.clearEnemies();
-					Game.gameState = STATE.End;
 				}
 				
 			}else if(game.diff == 1) {

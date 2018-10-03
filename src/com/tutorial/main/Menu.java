@@ -95,6 +95,19 @@ public class Menu extends MouseAdapter {
 				return;
 			}
 		}
+		if(Game.gameState == STATE.Win) {
+			// Back to menu button
+			if(mouseOver(mx, my, Game.WIDTH / 2 - 100, 350, 200, 64)) {
+				Game.gameState = STATE.Menu;
+				hud.setLevel(1);
+				hud.setScore(0);
+				handler.clearEnemies();				
+				AudioPlayer.getSound("menu_sound").play();
+				for(int i = 0; i < 15; i++) {
+					handler.addObject(new MenuParticle(r.nextInt(Game.WIDTH - 38), r.nextInt(Game.HEIGHT - 62), ID.MenuParticle, handler));
+				}
+			}
+		}
 		if(Game.gameState == STATE.End) {
 			// Back to menu button
 			if(mouseOver(mx, my, Game.WIDTH / 2 - 100, 350, 200, 64)) {
@@ -154,26 +167,22 @@ public class Menu extends MouseAdapter {
 			g.drawRect(Game.WIDTH / 2 - 100, 350, 200, 64);
 			g.drawString("Back", 287, 390);
 		}else if(Game.gameState == STATE.End) {
-			if (HUD.HEALTH > 0) {
-				// win code
-				g.drawString("You WON!", 185, 70);
-				g.setFont(fnt3);
-				g.drawString("You won with a score of " + hud.getScore(), 150, 250);
-
-				g.setFont(fnt2);
-				g.drawRect(Game.WIDTH / 2 - 105, 350, 210, 64);
-				g.drawString("Back to Menu", 224, 390);
-				
-			} else {
-				g.drawString("Game Over", 185, 70);
-				
-				g.setFont(fnt3);
-				g.drawString("You lost with a score of " + hud.getScore(), 150, 250);
-				
-				g.setFont(fnt2);
-				g.drawRect(Game.WIDTH / 2 - 105, 350, 210, 64);
-				g.drawString("Back to Menu", 224, 390);
-			}
+			g.drawString("Game Over", 185, 70);
+			
+			g.setFont(fnt3);
+			g.drawString("You lost with a score of " + hud.getScore(), 150, 250);
+			
+			g.setFont(fnt2);
+			g.drawRect(Game.WIDTH / 2 - 105, 350, 210, 64);
+			g.drawString("Back to Menu", 224, 390);								
+		} else if (Game.gameState == STATE.Win) {
+			// win code
+			g.drawString("You WON!", 185, 70);
+			g.setFont(fnt3);
+			g.drawString("You won with a score of " + hud.getScore(), 150, 250);
+			g.setFont(fnt2);
+			g.drawRect(Game.WIDTH / 2 - 105, 350, 210, 64);
+			g.drawString("Back to Menu", 224, 390);
 		}else if(Game.gameState == STATE.Select) {
 			g.setFont(fnt);
 			g.drawString("Select Difficulty", 130, 70);

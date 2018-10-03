@@ -26,14 +26,19 @@ public class Handler {
 	}
 	
 	public void clearEnemies() {
-		for(int i = 0; i < object.size(); i++) {
-			GameObject tempObject = object.get(i);
-			if(Game.gameState != Game.STATE.End) {
-				if(tempObject.getId() != ID.Player) {
+
+		if(Game.gameState == Game.STATE.End || Game.gameState == Game.STATE.Win) {
+			object.clear();
+		}		
+		else {
+			for(int i = 0; i < object.size(); i++) {
+				GameObject tempObject = object.get(i);
+			
+				if (tempObject.getId() != ID.Player) {
 					removeObject(tempObject);
 					i--;
 				}
-			}else object.clear();
+			}
 		}
 	}
 	

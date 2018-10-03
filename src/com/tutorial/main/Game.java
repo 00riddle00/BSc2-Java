@@ -35,7 +35,8 @@ public class Game extends Canvas implements Runnable {
 		Game,
 		Select,
 		Shop,
-		End
+		End,
+		Win
 	};
 	
 	public static STATE gameState = STATE.Menu;
@@ -134,8 +135,9 @@ public class Game extends Canvas implements Runnable {
 					}
 				}
 			}
-		}else if(gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select){
+		}else if(gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Win){
 			menu.tick();
+			//menu.render();
 			handler.tick();
 		}
 	}
@@ -163,7 +165,7 @@ public class Game extends Canvas implements Runnable {
 		if(gameState == STATE.Game) {
 			hud.render(g);
 			handler.render(g);
-		}else if(gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select){
+		}else if(gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Win) {
 			menu.render(g);
 			handler.render(g);
 		}else if(gameState == STATE.Shop) {
