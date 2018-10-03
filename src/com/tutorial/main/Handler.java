@@ -29,7 +29,7 @@ public class Handler {
 
 		if(Game.gameState == Game.STATE.End || Game.gameState == Game.STATE.Win) {
 			object.clear();
-		}		
+	}		
 		else {
 			for(int i = 0; i < object.size(); i++) {
 				GameObject tempObject = object.get(i);
