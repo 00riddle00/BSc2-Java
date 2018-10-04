@@ -1,3 +1,31 @@
+/**
+ * A game where a user object (player) should avoid NPC objects.
+ * NPC objects are of three types:
+ * [1] Little snakes that bounce of the screen
+ * [2] A little snake that follows the player
+ * [3] A boss enemy - object that moves horizontally and shoots the little snakes
+ * (not the same snakes as in [1], because they do not bounce off the screen, but 
+ * disappear after hitting the corner of the screen)
+ * 
+ * There are two levels of the game:
+ * [1] 1st level - Player should avoid hitting the little snakes
+ * [2] 2nd level - Player should avoid being hit by the boss's snakes
+ * 
+ * There are two levels of difficulty:
+ * [Normal]:
+ *    [1] The snakes in the 1st level bounce off at the same angle that they
+ *    initially bounce in. 
+ *    [2] The prices in the shop are lower.
+ * [Hard]:
+ *   [1] The snakes in the 1st level bounce off at random angles
+ *   [2] The snakes in the 1st level, when bounced off, can change their speed
+ *   [3] The prices in the shop are higher
+ *
+ * @author  Tomas Giedraitis, 2nd year, 2nd group
+ * @date	2018-10-04
+ *
+ */
+
 package com.tutorial.main;
 
 import java.awt.Canvas;
