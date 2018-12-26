@@ -1,13 +1,13 @@
-# settings
+# .settings/
 
 .settings folder - stores eclipse configs
 
-# classpath
+# .classpath
 
 .classpath file: stores classpath.
 My classpath:
 
-'''
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
         <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
@@ -24,4 +24,4 @@ My classpath:
         <classpathentry kind="lib" path="/home/riddle/eclipse-workspace/libs/jars/jinput.jar"/>
         <classpathentry kind="output" path="bin"/>
 </classpath>
-'''
+```
