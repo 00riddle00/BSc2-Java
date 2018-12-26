@@ -1,4 +1,13 @@
+# Eclipse
+
 bin/
 .classpath
 .project
 .settings/
+
+# NetBeans
+
+build.xml
+build/
+manifest.mf
+nbproject/
