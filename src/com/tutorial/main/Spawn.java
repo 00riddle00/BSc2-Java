@@ -47,7 +47,7 @@ public class Spawn {
 				else if(hud.getLevel() == 10) {
 					handler.clearEnemies();
 					handler.addObject(new EnemyBoss((Game.WIDTH / 2) - 48, -120, ID.EnemyBoss, handler));
-				} else if(hud.getLevel() == 8) {
+				} else if(hud.getLevel() == 20) {
 					Game.gameState = STATE.Win;
 					handler.clearEnemies();
 				}
@@ -74,6 +74,10 @@ public class Spawn {
 				else if(hud.getLevel() == 10) {
 					handler.clearEnemies();
 					handler.addObject(new EnemyBoss((Game.WIDTH / 2) - 48, -120, ID.EnemyBoss, handler));
+				}
+				else if(hud.getLevel() == 20) {
+					Game.gameState = STATE.Win;
+					handler.clearEnemies();
 				}
 			}
 		}
