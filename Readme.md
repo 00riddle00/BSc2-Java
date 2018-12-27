@@ -25,6 +25,8 @@ Google installing Slick2D with NetBeans
 [4] Run
 
 
-# Intellij IDEA
+# IntelliJ IDEA
+
+Same procedures (google adding libs, jars and VM options for IntelliJ)
 	
 

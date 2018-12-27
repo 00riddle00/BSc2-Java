@@ -11,3 +11,8 @@ build.xml
 build/
 manifest.mf
 nbproject/
+
+# IntelliJ
+.idea/
+out/
+*.iml
