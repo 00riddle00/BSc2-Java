@@ -14,6 +14,16 @@ Google installing Slick2D with Eclipse
 
 # NetBeans
 
+[1] New Project -> Java Project with Existing Sources
+
+[2] Add Slick2D library (the lwjgl natives were inside Slick2D lib folder in my case).
+
+Google installing Slick2D with NetBeans
+
+[3] Add res/ folder
+
+[4] Run
+
 
 # Intellij IDEA
 	
