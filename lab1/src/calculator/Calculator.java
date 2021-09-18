@@ -21,7 +21,7 @@ public class Calculator {
      * @param args - the name of the file
      */
     public static void main(String[] args) {
-        if(args.length == 0) {
+        if (args.length == 0) {
             System.out.println("Proper usage is: Calculator filename");
             System.exit(0);
         }
@@ -54,7 +54,6 @@ public class Calculator {
 
                 for (int i = 0; i < expression_array.length - 1; i++) {
                     String element = expression_array[i];
-
 
                     try {
                         num = parseInt(element.trim());
