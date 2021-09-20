@@ -21,7 +21,8 @@
  *   [2] The snakes in the 1st level, when bounced off, can change their speed
  *   [3] The prices in the shop are higher
  *
- * @author  Tomas Giedraitis, 2nd year, 2nd group
+ * @author  RealTutsGML (youtube channel)
+ * @playlist https://www.youtube.com/watch?v=1gir2R7G9ws&list=PLWms45O3n--6TvZmtFHaCWRZwEqnz2MHa
  * @date	2018-10-04
  *
  */
