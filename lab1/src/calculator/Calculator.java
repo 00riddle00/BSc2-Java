@@ -40,24 +40,23 @@ public class Calculator {
                 String line = input.nextLine();
 
                 String regex = "(?<=[-+()=])|(?=[-+()=])";
-                String[] expression_array = line.split(regex);
+                String[] expressionArray = line.split(regex);
 
-                String last_element = expression_array[expression_array.length - 1];
-                if (!(last_element.trim().equals("="))) {
+                String lastElement = expressionArray[expressionArray.length - 1];
+                if (!(lastElement.trim().equals("="))) {
                     System.out.println("ERROR: Each expression should end with the '=' sign");
                     System.exit(1);
                 }
 
                 int result = 0;
-                int state = 1; // 0 means -, 1 means +
-                int num;
 
-                for (int i = 0; i < expression_array.length - 1; i++) {
-                    String element = expression_array[i];
+                for (int i = 0, state = 1; i < expressionArray.length - 1; i++) {
+                    String element = expressionArray[i];
 
                     try {
-                        num = parseInt(element.trim());
+                        int num = parseInt(element.trim());
 
+                        // state: 0 means -, 1 means +
                         if (state == 1) {
                             result = result + num;
                         } else {
