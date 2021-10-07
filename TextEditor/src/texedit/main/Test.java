@@ -9,8 +9,7 @@ public class Test {
      * @param args - ...
      */
     public static void main(String[] args) {
-        TextEditor ed = new TextEditor();
-        ed.startEditing();
-        ed.println("---------------------");
+        TextEditor editor = new TextEditor();
+        editor.run();
     }
 }
