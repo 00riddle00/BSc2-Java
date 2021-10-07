@@ -3,7 +3,7 @@ package texedit.main;
 /**
  * Class which tests the functionality of the text editor
  */
-public class Test {
+public class Main {
 
     /**
      * @param args - ...

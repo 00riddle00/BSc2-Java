@@ -2,7 +2,7 @@ package texedit.main;
 
 public class Cursor {
     private int position;
-    private static final char CURSOR_SIGN = '|';
+    public static final char CURSOR_SIGN = '|';
 
     public int getPosition() {
         return position;

@@ -32,19 +32,27 @@ import java.util.Scanner;
  */
 public class TextEditor {
 
+    public static final short MAX_CHARS = 400;
+
+    private Fragment currFragment;
     private String title;
     private Date creationDate;
     private ArrayList<Fragment> fragments;
-    private int fragmentCount;
     private Cursor cursor;
-    public static final int MAX_CHARACTERS = 400;
-    public static final String border = "============================";
+    private final String border = "===========================================";
+    private int charCount;
+    private int lineCount;
 
     public TextEditor() {
         this("Untitled");
         creationDate = new Date();
         this.fragments = new ArrayList<Fragment>();
         this.cursor = new Cursor();
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     public TextEditor(String title) {
@@ -69,35 +77,62 @@ public class TextEditor {
         this.title = title;
     }
 
+    public void setLineCount(int delta) {
+        if (delta < 0 && this.charCount < Math.abs(delta)) {
+            System.out.println("[Error]: Negative line count");
+            System.exit(1);
+        }
+        this.lineCount = delta;
+    }
+
+    public int getLineCount() {
+        return this.lineCount;
+    }
+
     public void printHeader() {
-        System.out.println("[Title] " + this.getTitle());
+        System.out.println();
+        System.out.println(this.border);
+        System.out.println("[Title] " + this.getTitle() + " [lines] " +
+                this.getLineCount() + " [characters] " + this.getCharCount());
         System.out.println(this.border);
     }
 
     public void getInput() {
-        Scanner sc = new Scanner(System.in);    //System.in is a standard input stream
-        System.out.print("[Enter your text] ");
+        Scanner sc = new Scanner(System.in);
+        System.out.print("> ");
         String input = sc.nextLine();
-        Fragment fragment = new Fragment(input);
+        int len = input.length();
+        Fragment fragment = new Fragment(input, len);
         this.fragments.add(fragment);
-        this.fragmentCount++;
+        updateCharCount(len);
+    }
+
+    public void updateCharCount(int delta) {
+        if (delta < 0 && this.charCount < Math.abs(delta)) {
+            System.out.println("[Error]: Negative character count");
+            System.exit(1);
+        }
+
+        this.charCount += delta;
+    }
+
+    public int getCharCount() {
+        return this.charCount;
     }
 
     public void run() {
-        this.printHeader();
 
         while (true) {
+            TextEditor.clearScreen();
             this.printFragments();
+            this.printHeader();
             this.getInput();
         }
     }
 
     public void printFragments() {
-        for (int i = 0; i < fragmentCount; i++) {
-            fragments.get(i).print();
-        }
-        if (this.fragmentCount > 0) {
-            System.out.println();
+        for (Fragment fragment : fragments) {
+            fragment.print();
         }
     }
 }
