@@ -5,10 +5,6 @@ public class Fragment {
     private String text;
     private int length;
 
-    public Fragment(int len) {
-        this.length = len;
-    }
-
     public Fragment(String text, int len) {
         if (len != text.length()) {
             System.out.println("[Error]: cannot create new fragment - length mistmatch");
@@ -16,6 +12,14 @@ public class Fragment {
         }
         this.text = text;
         this.length = len;
+    }
+
+    public Fragment(int len) {
+        this("", len);
+    }
+
+    public Fragment() {
+        this("", 0);
     }
 
     public int getLength() {

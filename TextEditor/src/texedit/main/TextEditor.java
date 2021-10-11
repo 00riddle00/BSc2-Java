@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+//  TODO Šioje projekto fazėje duomenų įvedimas nereikalingas: viską
+//   užtikrinkite kviesdami operacijas su objektais. Kursoriaus objektas
+//   atrodo nesusietas su likusiais - panaudokite.
+
 /**
  * Tikslai
  * <p>
@@ -34,39 +38,33 @@ public class TextEditor {
 
     public static final short MAX_CHARS = 400;
 
-    private Fragment currFragment;
     private String title;
     private Date creationDate;
     private ArrayList<Fragment> fragments;
+    private Fragment currFragment;
     private Cursor cursor;
     private final String border = "===========================================";
     private int charCount;
     private int lineCount;
-
-    public TextEditor() {
-        this("Untitled");
-        creationDate = new Date();
-        this.fragments = new ArrayList<Fragment>();
-        this.cursor = new Cursor();
-    }
-
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
-    public TextEditor(String title) {
-        this.title = title;
-        creationDate = new Date();
-        this.fragments = new ArrayList<Fragment>();
-        this.cursor = new Cursor();
-    }
 
     public TextEditor(String title, Date cd) {
         this.title = title;
         creationDate = cd;
         this.fragments = new ArrayList<Fragment>();
         this.cursor = new Cursor();
+    }
+
+    public TextEditor(String title) {
+        this(title, new Date());
+    }
+
+    public TextEditor() {
+        this("Untitled");
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     public String getTitle() {
