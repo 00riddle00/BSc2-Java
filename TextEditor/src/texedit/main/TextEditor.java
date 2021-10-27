@@ -50,7 +50,7 @@ public class TextEditor {
         this.title = title;
         creationDate = cd;
         this.fragments = new ArrayList<Fragment>();
-        this.cursor = new Cursor();
+        this.cursor = Cursor.getInstance();
     }
 
     public TextEditor(String title) {

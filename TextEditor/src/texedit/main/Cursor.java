@@ -1,27 +1,43 @@
 package texedit.main;
 
-// TODO make this a singleton object
 public class Cursor {
     private int position;
-    public static final char CURSOR_SIGN = '|';
+    private static final char CURSOR_SIGN = '|';
 
-    public Cursor(int position) {
-        this.position = position;
+    private Cursor() {
+        this.position = 1;
     }
 
-    public Cursor() {
-        this(1);
+    private static Cursor cursor;
+
+    public static Cursor getInstance() {
+        if (cursor == null) {
+            cursor = new Cursor();
+        }
+        return cursor;
     }
 
-    public int getPosition() {
+    public int getPos() {
         return position;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setPos(int pos) {
+        if (pos <= 0) {
+            System.out.println("[Error]: Negative cursor position");
+            System.exit(1);
+        }
+        this.position = pos;
     }
 
-    public void println() {
+    public void move(int delta) {
+        position += delta;
+        if (position <= 0) {
+            System.out.println("[Error]: Negative cursor count");
+            System.exit(1);
+        }
+    }
+
+    public void print() {
         System.out.print(CURSOR_SIGN);
     }
 }
