@@ -7,50 +7,52 @@ public abstract class Fragment {
     protected int startPos;
     protected int endPos;
 
-    protected abstract int getLength();
+    protected final int getLength() {
+        return this.length;
+    }
 
     protected abstract void print();
 
-    protected void printRaw() {
-        System.out.print(this.text);
-    }
+    public abstract String toString();
 
     protected abstract void join(Fragment f);
-}
 
-class TextFragment extends Fragment {
-
-    public TextFragment(String text, int len, int startPos) {
+    Fragment(String text, int len, int startPos) {
         this.text = text;
         this.length = len;
         this.startPos = startPos;
         this.endPos = startPos + len;
     }
+}
 
-    public int getLength() {
-        return this.length;
+class TextFragment extends Fragment {
+
+    public TextFragment(String text, int len, int startPos) {
+        super(text, len, startPos);
     }
 
     public void print() {
         System.out.println(this.text);
     }
 
+    // TODO join rules depending of object types
     protected void join(Fragment f) {
         this.text += f.text;
         this.length += f.length;
         this.endPos = f.endPos;
     }
+
+    public String toString() {
+        return this.text;
+    }
 }
 
-class Url extends Fragment {
+class Url extends TextFragment {
 
     protected String pointsTo;
 
     public Url(String text, int len, int startPos, String pointsTo) {
-        this.text = text;
-        this.length = len;
-        this.startPos = startPos;
-        this.endPos = startPos + len;
+        super(text, len, startPos);
         this.pointsTo = pointsTo;
     }
 
@@ -58,16 +60,12 @@ class Url extends Fragment {
         this(text, len, startPos, "");
     }
 
-    public int getLength() {
-        return this.length;
-    }
-
-    public void print() {
-        System.out.println(this.text);
-    }
-
     protected void join(Fragment f) {
         System.out.println("[Error]: Url cannot be joined");
         System.exit(1);
+    }
+
+    public String toString() {
+        return super.toString();
     }
 }
