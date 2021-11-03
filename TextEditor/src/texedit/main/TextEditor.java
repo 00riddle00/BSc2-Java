@@ -102,8 +102,7 @@ public class TextEditor {
         this.updateLineCount(newlineCount);
 
         // TODO move to Fragment's constructor?
-        fragment.hasCursor = true;
-        cursor.fragment = fragment;
+        Cursor.fragment = fragment;
         Cursor.positionInFragment = len;
     }
 

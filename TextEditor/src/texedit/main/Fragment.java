@@ -11,8 +11,6 @@ public abstract class Fragment {
         return this.length;
     }
 
-    public boolean hasCursor;
-
     protected abstract void print();
 
     public abstract String toString();
@@ -34,7 +32,7 @@ class TextFragment extends Fragment {
     }
 
     public void print() {
-        if (hasCursor) {
+        if (Cursor.fragment == this) {
             print(0, Cursor.positionInFragment - 1);
             Cursor.print();
             print(Cursor.positionInFragment, length);
@@ -74,7 +72,7 @@ class Url extends TextFragment {
     }
 
     public Url(String text, int len, int startPos) {
-        this(text, len, startPos, "");
+        this(text, len, startPos, text);
     }
 
     protected void join(Fragment f) {

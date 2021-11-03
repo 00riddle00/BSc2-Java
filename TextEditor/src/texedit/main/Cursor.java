@@ -4,7 +4,7 @@ public class Cursor {
     private int position;
     private static final char CURSOR_SIGN = '|';
 
-    public Fragment fragment;
+    public static Fragment fragment;
     public static int positionInFragment;
 
     private Cursor() {
