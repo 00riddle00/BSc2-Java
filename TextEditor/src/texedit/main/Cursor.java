@@ -4,6 +4,9 @@ public class Cursor {
     private int position;
     private static final char CURSOR_SIGN = '|';
 
+    public Fragment fragment;
+    public static int positionInFragment;
+
     private Cursor() {
         this.position = 1;
     }
@@ -37,7 +40,7 @@ public class Cursor {
         }
     }
 
-    public void print() {
+    public static void print() {
         System.out.print(CURSOR_SIGN);
     }
 }

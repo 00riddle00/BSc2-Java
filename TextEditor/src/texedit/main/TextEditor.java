@@ -95,12 +95,16 @@ public class TextEditor {
 
     public void createFragment(String s) {
         int len = s.length();
-        Fragment fragment = new TextFragment(s, charCount, len);
+        Fragment fragment = new TextFragment(s, len, charCount);
         this.fragments.add(fragment);
         int newlineCount = countChar(s, '\n');
-        System.out.println("NN" + newlineCount);
         this.updateCharCount(len);
         this.updateLineCount(newlineCount);
+
+        // TODO move to Fragment's constructor?
+        fragment.hasCursor = true;
+        cursor.fragment = fragment;
+        Cursor.positionInFragment = len;
     }
 
     public void printHeader() {
@@ -120,7 +124,11 @@ public class TextEditor {
     public void redraw() {
         clearScreen();
         printHeader();
-        printFragments();
+        if (fragments.size() > 0) {
+            printFragments();
+        } else {
+            Cursor.print();
+        }
     }
 
     public void run() {

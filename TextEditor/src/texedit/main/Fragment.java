@@ -11,13 +11,15 @@ public abstract class Fragment {
         return this.length;
     }
 
+    public boolean hasCursor;
+
     protected abstract void print();
 
     public abstract String toString();
 
     protected abstract void join(Fragment f);
 
-    Fragment(String text, int len, int startPos) {
+    public Fragment(String text, int len, int startPos) {
         this.text = text;
         this.length = len;
         this.startPos = startPos;
@@ -32,7 +34,22 @@ class TextFragment extends Fragment {
     }
 
     public void print() {
-        System.out.println(this.text);
+        if (hasCursor) {
+            print(0, Cursor.positionInFragment - 1);
+            Cursor.print();
+            print(Cursor.positionInFragment, length);
+        } else {
+            System.out.print(this.text);
+        }
+    }
+
+
+    public void print(int from, int until) {
+        if (from < length) {
+            for (int i = from; i <= until; i++) {
+                System.out.print(this.text.charAt(i));
+            }
+        }
     }
 
     // TODO join rules depending of object types
