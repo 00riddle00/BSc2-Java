@@ -81,6 +81,6 @@ class Url extends TextFragment {
     }
 
     public String toString() {
-        return super.toString();
+        return "[UrlText]: " + super.toString() + "[Url]: " + this.pointsTo;
     }
 }
