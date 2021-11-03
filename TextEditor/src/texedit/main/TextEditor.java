@@ -93,13 +93,31 @@ public class TextEditor {
         this.lineCount += delta;
     }
 
-    public void createFragment(String s) {
-        int len = s.length();
-        Fragment fragment = new TextFragment(s, len, charCount);
+    public void addText(String text) {
+        int len = text.length();
+        Fragment fragment = new TextFragment(text, len, charCount);
         this.fragments.add(fragment);
-        int newlineCount = countChar(s, '\n');
+        int newlineCount = countChar(text, '\n');
         this.updateCharCount(len);
         this.updateLineCount(newlineCount);
+
+        // TODO move to Fragment's constructor?
+        Cursor.fragment = fragment;
+        Cursor.positionInFragment = len;
+    }
+
+    public void addUrl(String urlText, String pointsTo) {
+        int len = urlText.length();
+        int newlineCount = countChar(urlText, '\n');
+
+        if (newlineCount > 0) {
+            System.out.println("[Error]: URL cannot contain newlines!");
+            System.exit(1);
+        }
+
+        Fragment fragment = new Url(urlText, len, charCount, pointsTo);
+        this.fragments.add(fragment);
+        this.updateCharCount(len);
 
         // TODO move to Fragment's constructor?
         Cursor.fragment = fragment;
@@ -133,16 +151,21 @@ public class TextEditor {
     public void run() {
         redraw();
 
-        wait(2000);
+        wait(1000);
 
-        createFragment("Test\n");
+        addText("Test\n");
         redraw();
 
-        wait(2000);
+        wait(1000);
 
         setTitle("TestDocument");
         redraw();
 
-        wait(2000);
+        wait(1000);
+
+        addUrl("Hyperlink", "www.google.com");
+        redraw();
+
+        wait(1000);
     }
 }
