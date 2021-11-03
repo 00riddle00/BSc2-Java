@@ -64,15 +64,21 @@ class TextFragment extends Fragment {
 
 class Url extends TextFragment {
 
-    protected String pointsTo;
+    protected String address;
 
-    public Url(String text, int len, int startPos, String pointsTo) {
+    public Url(String text, int len, int startPos, String address) {
         super(text, len, startPos);
-        this.pointsTo = pointsTo;
+        this.address = address;
     }
 
     public Url(String text, int len, int startPos) {
         this(text, len, startPos, text);
+    }
+
+    public void print() {
+        System.out.print("\033]8;;" + this.address + "\033\\");
+        super.print();
+        System.out.print("\033]8;;\033\\");
     }
 
     protected void join(Fragment f) {
@@ -81,6 +87,6 @@ class Url extends TextFragment {
     }
 
     public String toString() {
-        return "[UrlText]: " + super.toString() + "[Url]: " + this.pointsTo;
+        return "[Text]: " + super.toString() + "[Url]: " + this.address;
     }
 }

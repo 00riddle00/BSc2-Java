@@ -106,16 +106,16 @@ public class TextEditor {
         Cursor.positionInFragment = len;
     }
 
-    public void addUrl(String urlText, String pointsTo) {
-        int len = urlText.length();
-        int newlineCount = countChar(urlText, '\n');
+    public void addUrl(String text, String address) {
+        int len = text.length();
+        int newlineCount = countChar(text, '\n');
 
         if (newlineCount > 0) {
             System.out.println("[Error]: URL cannot contain newlines!");
             System.exit(1);
         }
 
-        Fragment fragment = new Url(urlText, len, charCount, pointsTo);
+        Fragment fragment = new Url(text, len, charCount, address);
         this.fragments.add(fragment);
         this.updateCharCount(len);
 
@@ -163,9 +163,11 @@ public class TextEditor {
 
         wait(1000);
 
-        addUrl("Hyperlink", "www.google.com");
+        addUrl("Hyperlink", "https://www.google.com");
         redraw();
 
         wait(1000);
+
+        System.out.println();
     }
 }
