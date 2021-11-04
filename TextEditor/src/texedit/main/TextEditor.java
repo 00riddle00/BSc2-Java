@@ -171,4 +171,9 @@ public class TextEditor {
         // TODO move to finalize?
         System.out.println();
     }
+
+    public static void main(String[] args) {
+        TextEditor editor = new TextEditor();
+        editor.run();
+    }
 }
