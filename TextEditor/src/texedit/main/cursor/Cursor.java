@@ -1,4 +1,6 @@
-package texedit.main;
+package texedit.main.cursor;
+
+import texedit.main.fragments.Fragment;
 
 public class Cursor {
 

@@ -1,5 +1,10 @@
 package texedit.main;
 
+import texedit.main.cursor.Cursor;
+import texedit.main.fragments.Fragment;
+import texedit.main.fragments.TextFragment;
+import texedit.main.fragments.Url;
+
 import java.util.ArrayList;
 import java.util.Date;
 
