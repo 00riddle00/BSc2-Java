@@ -27,6 +27,8 @@ public abstract class Fragment {
 
 class TextFragment extends Fragment {
 
+    protected boolean isUnderlined;
+
     public TextFragment(String text, int len, int startPos) {
         super(text, len, startPos);
     }
@@ -37,14 +39,24 @@ class TextFragment extends Fragment {
             Cursor.print();
             print(Cursor.positionInFragment, length);
         } else {
+            // TODO change to calling this.print(from, to);
             System.out.print(this.text);
         }
     }
 
+    public void print(int from, int to) {
+        if (isUnderlined) {
+            System.out.print("\033[4m");
+            printText(from, to);
+            System.out.print("\033[0m");
+        } else {
+            printText(from, to);
+        }
+    }
 
-    public void print(int from, int until) {
+    public void printText(int from, int to) {
         if (from < length) {
-            for (int i = from; i <= until; i++) {
+            for (int i = from; i <= to; i++) {
                 System.out.print(this.text.charAt(i));
             }
         }
@@ -69,6 +81,7 @@ class Url extends TextFragment {
     public Url(String text, int len, int startPos, String address) {
         super(text, len, startPos);
         this.address = address;
+        this.isUnderlined = true;
     }
 
     public Url(String text, int len, int startPos) {
