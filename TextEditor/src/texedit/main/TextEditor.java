@@ -12,27 +12,6 @@ public class TextEditor {
 
     public static final short MAX_CHARS = 400;
 
-    private String title;
-    private Date creationDate;
-    private ArrayList<Fragment> fragments;
-    private Fragment currFragment;
-    private Cursor cursor;
-    private final String border =
-            "====================================" +
-                    "==========================================";
-    private int charCount;
-    private int lineCount = 1;
-
-    public static int countChar(String s, char c) {
-        int count = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == c)
-                count++;
-        }
-        return count;
-    }
-
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -45,6 +24,27 @@ public class TextEditor {
             Thread.currentThread().interrupt();
         }
     }
+
+    public static int countChar(String s, char c) {
+        int count = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == c)
+                count++;
+        }
+        return count;
+    }
+
+    private String title;
+    private Date creationDate;
+    private ArrayList<Fragment> fragments;
+    private Fragment currFragment;
+    private Cursor cursor;
+    private final String border =
+            "====================================" +
+                    "==========================================";
+    private int charCount;
+    private int lineCount = 1;
 
     public TextEditor(String title, Date cd) {
         this.title = title;
@@ -65,16 +65,12 @@ public class TextEditor {
         return this.title;
     }
 
-    public int getCharCount() {
-        return this.charCount;
-    }
-
-    public int getLineCount() {
-        return this.lineCount;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getCharCount() {
+        return this.charCount;
     }
 
     public void updateCharCount(int delta) {
@@ -83,6 +79,10 @@ public class TextEditor {
             System.exit(1);
         }
         this.charCount += delta;
+    }
+
+    public int getLineCount() {
+        return this.lineCount;
     }
 
     public void updateLineCount(int delta) {
@@ -168,6 +168,7 @@ public class TextEditor {
 
         wait(1000);
 
+        // TODO move to finalize?
         System.out.println();
     }
 }

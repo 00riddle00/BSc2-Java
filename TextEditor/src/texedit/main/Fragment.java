@@ -7,21 +7,21 @@ public abstract class Fragment {
     protected int startPos;
     protected int endPos;
 
-    protected final int getLength() {
-        return this.length;
-    }
-
-    protected abstract void print();
-
-    public abstract String toString();
-
-    protected abstract void join(Fragment f);
-
     public Fragment(String text, int len, int startPos) {
         this.text = text;
         this.length = len;
         this.startPos = startPos;
         this.endPos = startPos + len;
+    }
+
+    public abstract String toString();
+
+    protected abstract void print();
+
+    protected abstract void join(Fragment f);
+
+    protected final int getLength() {
+        return this.length;
     }
 }
 
@@ -31,6 +31,10 @@ class TextFragment extends Fragment {
 
     public TextFragment(String text, int len, int startPos) {
         super(text, len, startPos);
+    }
+
+    public String toString() {
+        return this.text;
     }
 
     public void print() {
@@ -68,10 +72,6 @@ class TextFragment extends Fragment {
         this.length += f.length;
         this.endPos = f.endPos;
     }
-
-    public String toString() {
-        return this.text;
-    }
 }
 
 class Url extends TextFragment {
@@ -88,6 +88,10 @@ class Url extends TextFragment {
         this(text, len, startPos, text);
     }
 
+    public String toString() {
+        return "[Text]: " + super.toString() + "[Url]: " + this.address;
+    }
+
     public void print() {
         System.out.print("\033]8;;" + this.address + "\033\\");
         super.print();
@@ -97,9 +101,5 @@ class Url extends TextFragment {
     protected void join(Fragment f) {
         System.out.println("[Error]: Url cannot be joined");
         System.exit(1);
-    }
-
-    public String toString() {
-        return "[Text]: " + super.toString() + "[Url]: " + this.address;
     }
 }
