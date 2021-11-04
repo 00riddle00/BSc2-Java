@@ -1,5 +1,6 @@
 package texedit.main;
 
+import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
 import texedit.main.fragments.Fragment;
 import texedit.main.fragments.TextFragment;
@@ -137,6 +138,13 @@ public final class TextEditor {
         Cursor.setPositionInFragment(len);
     }
 
+    public void setSelectionColor(String colorName) {
+        Fragment currFragment = Cursor.fragment;
+        if (currFragment instanceof Colorable) {
+            ((Colorable) currFragment).setColor(colorName);
+        }
+    }
+
     public void printHeader() {
         System.out.println();
         System.out.println(this.border);
@@ -177,6 +185,13 @@ public final class TextEditor {
         wait(1000);
 
         addUrl("Hyperlink", "https://www.google.com");
+        redraw();
+
+        wait(1000);
+
+        // By selection we mean the fragment
+        // which has the cursor in it
+        setSelectionColor("RED");
         redraw();
 
         wait(1000);

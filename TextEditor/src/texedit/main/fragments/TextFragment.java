@@ -1,10 +1,15 @@
 package texedit.main.fragments;
 
+import texedit.main.colorable.Colorable;
+import texedit.main.colorable.ColorableImpl;
 import texedit.main.cursor.Cursor;
 
-public class TextFragment extends Fragment {
+public class TextFragment extends Fragment implements Colorable {
 
     protected boolean isUnderlined;
+
+    // Colorable field
+    private final ColorableImpl clr = new ColorableImpl();
 
     public TextFragment(String text, int len, int startPos) {
         super(text, len, startPos);
@@ -12,6 +17,23 @@ public class TextFragment extends Fragment {
 
     public String toString() {
         return this.text;
+    }
+
+    // Delegate Colorable interface calls to clr field
+    public String getColor() {
+        return clr.getColor();
+    }
+
+    public void setColor(String colorName) {
+        clr.setColor(colorName);
+    }
+
+    public boolean checkIfColored() {
+        return clr.checkIfColored();
+    }
+
+    public void printColorEsqSeq() {
+        clr.printColorEsqSeq();
     }
 
     public void print() {
@@ -26,12 +48,22 @@ public class TextFragment extends Fragment {
     }
 
     public void print(int from, int to) {
+        boolean needsReset = false;
+
+        if (checkIfColored()) {
+            printColorEsqSeq();
+            needsReset = true;
+        }
+
         if (isUnderlined) {
             System.out.print("\033[4m");
-            printText(from, to);
+            needsReset = true;
+        }
+
+        printText(from, to);
+
+        if (needsReset) {
             System.out.print("\033[0m");
-        } else {
-            printText(from, to);
         }
     }
 
