@@ -16,9 +16,9 @@ public class TextFragment extends Fragment {
 
     public void print() {
         if (Cursor.fragment == this) {
-            print(0, Cursor.positionInFragment - 1);
+            print(0, Cursor.getPositionInFragment() - 1);
             Cursor.print();
-            print(Cursor.positionInFragment, length);
+            print(Cursor.getPositionInFragment(), length);
         } else {
             // TODO change to calling this.print(from, to);
             System.out.print(this.text);

@@ -1,8 +1,8 @@
 package texedit.main.fragments;
 
-public class Url extends TextFragment {
+public final class Url extends TextFragment {
 
-    protected String address;
+    private String address;
 
     public Url(String text, int len, int startPos, String address) {
         super(text, len, startPos);

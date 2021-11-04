@@ -13,16 +13,16 @@ import java.util.Date;
  * <p>
  * Text Editor - the main class of the project
  */
-public class TextEditor {
+public final class TextEditor {
 
     public static final short MAX_CHARS = 400;
 
-    public static void clearScreen() {
+    private static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    public static void wait(int ms) {
+    private static void wait(int ms) {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException ex) {
@@ -30,7 +30,7 @@ public class TextEditor {
         }
     }
 
-    public static int countChar(String s, char c) {
+    private static int countChar(String s, char c) {
         int count = 0;
 
         for (int i = 0; i < s.length(); i++) {
@@ -78,16 +78,24 @@ public class TextEditor {
         return this.charCount;
     }
 
+    public void setCharCount(int count) {
+        this.charCount = count;
+    }
+
+    public int getLineCount() {
+        return this.lineCount;
+    }
+
+    public void setLineCount(int count) {
+        this.lineCount = count;
+    }
+
     public void updateCharCount(int delta) {
         if (delta < 0 && this.charCount < Math.abs(delta)) {
             System.out.println("[Error]: Negative char count");
             System.exit(1);
         }
-        this.charCount += delta;
-    }
-
-    public int getLineCount() {
-        return this.lineCount;
+        setCharCount(getCharCount() + delta);
     }
 
     public void updateLineCount(int delta) {
@@ -95,7 +103,7 @@ public class TextEditor {
             System.out.println("[Error]: Negative line count");
             System.exit(1);
         }
-        this.lineCount += delta;
+        setLineCount(getLineCount() + delta);
     }
 
     public void addText(String text) {
@@ -108,7 +116,7 @@ public class TextEditor {
 
         // TODO move to Fragment's constructor?
         Cursor.fragment = fragment;
-        Cursor.positionInFragment = len;
+        Cursor.setPositionInFragment(len);
     }
 
     public void addUrl(String text, String address) {
@@ -126,7 +134,7 @@ public class TextEditor {
 
         // TODO move to Fragment's constructor?
         Cursor.fragment = fragment;
-        Cursor.positionInFragment = len;
+        Cursor.setPositionInFragment(len);
     }
 
     public void printHeader() {

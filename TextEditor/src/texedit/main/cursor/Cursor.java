@@ -2,16 +2,37 @@ package texedit.main.cursor;
 
 import texedit.main.fragments.Fragment;
 
-public class Cursor {
+/**
+ * Singleton
+ */
+public final class Cursor {
 
     public static Fragment fragment;
-    public static int positionInFragment;
+    private static int positionInFragment;
 
     private static Cursor cursor;
     private static final char CURSOR_SIGN = '|';
 
     public static void print() {
         System.out.print(CURSOR_SIGN);
+    }
+
+    public static int getPositionInFragment() {
+        return positionInFragment;
+    }
+
+    public static void setPositionInFragment(int pos) {
+        if (pos <= 0) {
+            System.out.println("[Error]: Negative cursor position in a fragment!");
+            System.exit(1);
+        }
+        positionInFragment = pos;
+    }
+
+    private int position;
+
+    private Cursor() {
+        this.position = 1;
     }
 
     public static Cursor getInstance() {
@@ -21,29 +42,19 @@ public class Cursor {
         return cursor;
     }
 
-    private int position;
-
-    private Cursor() {
-        this.position = 1;
+    public void move(int delta) {
+        setPos(getPos() + delta);
     }
 
-    public int getPos() {
+    private int getPos() {
         return position;
     }
 
-    public void setPos(int pos) {
+    private void setPos(int pos) {
         if (pos <= 0) {
             System.out.println("[Error]: Negative cursor position");
             System.exit(1);
         }
         this.position = pos;
-    }
-
-    public void move(int delta) {
-        position += delta;
-        if (position <= 0) {
-            System.out.println("[Error]: Negative cursor count");
-            System.exit(1);
-        }
     }
 }

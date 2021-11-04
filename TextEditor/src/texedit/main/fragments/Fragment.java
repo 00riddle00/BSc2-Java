@@ -2,12 +2,12 @@ package texedit.main.fragments;
 
 public abstract class Fragment {
 
-    public String text;
-    public int length;
-    public int startPos;
-    public int endPos;
+    protected String text;
+    protected int length;
+    protected int startPos;
+    protected int endPos;
 
-    public Fragment(String text, int len, int startPos) {
+    protected Fragment(String text, int len, int startPos) {
         this.text = text;
         this.length = len;
         this.startPos = startPos;
