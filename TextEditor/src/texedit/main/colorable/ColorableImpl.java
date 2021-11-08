@@ -1,10 +1,9 @@
 package texedit.main.colorable;
 
-public class ColorableImpl implements Colorable {
+public class ColorableImpl implements ColorableWithANSI {
     private String colorName;
     private String colorEscSeq;
     private boolean isColored;
-
 
     public String getColor() {
         if (!this.isColored) {

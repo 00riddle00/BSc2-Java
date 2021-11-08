@@ -172,22 +172,22 @@ public final class TextEditor {
     public void run() {
         redraw();
 
-        wait(1000);
+        wait(2000);
 
         addText("Test\n");
         redraw();
 
-        wait(1000);
+        wait(2000);
 
         setTitle("TestDocument");
         redraw();
 
-        wait(1000);
+        wait(2000);
 
         addUrl("Hyperlink", "https://www.google.com");
         redraw();
 
-        wait(1000);
+        wait(2000);
 
         // By selection we mean the fragment
         // which has the cursor in it

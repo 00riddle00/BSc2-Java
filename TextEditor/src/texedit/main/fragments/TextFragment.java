@@ -2,6 +2,7 @@ package texedit.main.fragments;
 
 import texedit.main.colorable.Colorable;
 import texedit.main.colorable.ColorableImpl;
+import texedit.main.colorable.ColorableWithANSI;
 import texedit.main.cursor.Cursor;
 
 public class TextFragment extends Fragment implements Colorable {
@@ -63,7 +64,7 @@ public class TextFragment extends Fragment implements Colorable {
         printText(from, to);
 
         if (needsReset) {
-            System.out.print("\033[0m");
+            ColorableWithANSI.reset();
         }
     }
 
