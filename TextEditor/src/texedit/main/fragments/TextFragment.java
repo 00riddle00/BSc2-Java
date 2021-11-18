@@ -7,12 +7,14 @@ import texedit.main.cursor.Cursor;
 import texedit.main.exceptions.InvalidColorException;
 import texedit.main.exceptions.TextEditorException;
 
+import java.awt.Color;
+
 public class TextFragment extends Fragment implements Colorable, Cloneable {
 
     protected boolean isUnderlined;
 
     // Colorable field
-    private final ColorableImpl clr = new ColorableImpl();
+    private ColorableImpl clr = new ColorableImpl();
 
     public TextFragment(String text, int len, int startPos) {
         super(text, len, startPos);
@@ -46,6 +48,7 @@ public class TextFragment extends Fragment implements Colorable, Cloneable {
     public TextFragment clone() throws CloneNotSupportedException {
         try {
             TextFragment tf = (TextFragment) super.clone();
+            tf.clr = clr.clone();
             return tf;
         } catch (CloneNotSupportedException e) {
             throw e;
