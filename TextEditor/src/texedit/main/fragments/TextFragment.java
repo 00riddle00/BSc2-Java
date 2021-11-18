@@ -5,8 +5,9 @@ import texedit.main.colorable.ColorableImpl;
 import texedit.main.colorable.ColorableWithANSI;
 import texedit.main.cursor.Cursor;
 import texedit.main.exceptions.InvalidColorException;
+import texedit.main.exceptions.TextEditorException;
 
-public class TextFragment extends Fragment implements Colorable {
+public class TextFragment extends Fragment implements Colorable, Cloneable {
 
     protected boolean isUnderlined;
 
@@ -40,6 +41,15 @@ public class TextFragment extends Fragment implements Colorable {
 
     public void printColorEsqSeq() {
         clr.printColorEsqSeq();
+    }
+
+    public TextFragment clone() throws CloneNotSupportedException {
+        try {
+            TextFragment tf = (TextFragment) super.clone();
+            return tf;
+        } catch (CloneNotSupportedException e) {
+            throw e;
+        }
     }
 
     public void print() {

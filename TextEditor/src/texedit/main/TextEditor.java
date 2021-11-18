@@ -148,6 +148,27 @@ public final class TextEditor {
         Cursor.setPositionInFragment(len);
     }
 
+    public void duplicate() {
+        Fragment currFragment = this.fragments.get(this.fragments.size() - 1);
+
+        try {
+            Fragment newFragment = ((TextFragment) currFragment).clone();
+
+            this.fragments.add(newFragment);
+            int newlineCount = countChar(newFragment.toString(), '\n');
+            this.updateCharCount(newFragment.getLength());
+            this.updateLineCount(newlineCount);
+
+            // TODO move to Fragment's constructor?
+            Cursor.fragment = newFragment;
+            Cursor.setPositionInFragment(newFragment.getLength());
+
+        } catch (CloneNotSupportedException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+    }
+
     public void setSelectionColor(String colorName) {
         Fragment currFragment = Cursor.fragment;
         if (currFragment instanceof Colorable) {
@@ -194,6 +215,15 @@ public final class TextEditor {
 
         wait(1000);
 
+        duplicate();
+        redraw();
+
+        wait(1000);
+
+        setSelectionColor("BLUE");
+        redraw();
+        wait(1000);
+
         setTitle("TestDocument");
         redraw();
 
@@ -202,19 +232,17 @@ public final class TextEditor {
         addUrl("Hyperlink", "https://www.google.com");
         redraw();
 
-        wait(2000);
+        wait(1000);
 
         // By selection we mean the fragment
         // which has the cursor in it
-        setSelectionColor("lkasjdfajs");
+        setSelectionColor("RED");
         redraw();
 
         wait(1000);
 
         // TODO move to finalize?
         System.out.println();
-
-        updateCharCount(-100);
     }
 
     public static void main(String[] args) {

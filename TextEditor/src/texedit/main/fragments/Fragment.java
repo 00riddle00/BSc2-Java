@@ -1,6 +1,6 @@
 package texedit.main.fragments;
 
-public abstract class Fragment {
+public abstract class Fragment implements Cloneable {
 
     protected String text;
     protected int length;
