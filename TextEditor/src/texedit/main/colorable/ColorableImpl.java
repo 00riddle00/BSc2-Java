@@ -1,5 +1,7 @@
 package texedit.main.colorable;
 
+import texedit.main.exceptions.InvalidColorException;
+
 public class ColorableImpl implements ColorableWithANSI {
     private String colorName;
     private String colorEscSeq;
@@ -13,7 +15,7 @@ public class ColorableImpl implements ColorableWithANSI {
         return this.colorEscSeq;
     }
 
-    public void setColor(String colorName) {
+    public void setColor(String colorName) throws InvalidColorException {
         switch (colorName) {
             case "BLACK" -> colorEscSeq = "\033[0;30m";
             case "RED" -> colorEscSeq = "\033[0;31m";
@@ -24,8 +26,7 @@ public class ColorableImpl implements ColorableWithANSI {
             case "CYAN" -> colorEscSeq = "\033[0;36m";
             case "WHITE" -> colorEscSeq = "\033[0;37m";
             default -> {
-                System.out.println("[Error]: No such color!");
-                System.exit(1);
+                throw new InvalidColorException("No such color", colorName);
             }
         }
         this.colorName = colorName;

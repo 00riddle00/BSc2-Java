@@ -4,6 +4,7 @@ import texedit.main.colorable.Colorable;
 import texedit.main.colorable.ColorableImpl;
 import texedit.main.colorable.ColorableWithANSI;
 import texedit.main.cursor.Cursor;
+import texedit.main.exceptions.InvalidColorException;
 
 public class TextFragment extends Fragment implements Colorable {
 
@@ -25,8 +26,12 @@ public class TextFragment extends Fragment implements Colorable {
         return clr.getColor();
     }
 
-    public void setColor(String colorName) {
-        clr.setColor(colorName);
+    public void setColor(String colorName) throws InvalidColorException {
+        try {
+            clr.setColor(colorName);
+        } catch (InvalidColorException e) {
+            throw e;
+        }
     }
 
     public boolean checkIfColored() {

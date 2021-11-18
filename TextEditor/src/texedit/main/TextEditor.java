@@ -2,6 +2,8 @@ package texedit.main;
 
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
+import texedit.main.exceptions.InvalidColorException;
+import texedit.main.exceptions.NegativeCountException;
 import texedit.main.fragments.Fragment;
 import texedit.main.fragments.TextFragment;
 import texedit.main.fragments.Url;
@@ -79,7 +81,10 @@ public final class TextEditor {
         return this.charCount;
     }
 
-    public void setCharCount(int count) {
+    public void setCharCount(int count) throws NegativeCountException {
+        if (count < 0) {
+            throw new NegativeCountException("Negative char count", count);
+        }
         this.charCount = count;
     }
 
@@ -87,24 +92,29 @@ public final class TextEditor {
         return this.lineCount;
     }
 
-    public void setLineCount(int count) {
+    public void setLineCount(int count) throws NegativeCountException {
+        if (count < 0) {
+            throw new NegativeCountException("Negative line count", count);
+        }
         this.lineCount = count;
     }
 
     public void updateCharCount(int delta) {
-        if (delta < 0 && this.charCount < Math.abs(delta)) {
-            System.out.println("[Error]: Negative char count");
+        try {
+            setCharCount(getCharCount() + delta);
+        } catch (NegativeCountException e) {
+            System.out.println(e + ". Count: " + e.getCount());
             System.exit(1);
         }
-        setCharCount(getCharCount() + delta);
     }
 
     public void updateLineCount(int delta) {
-        if (delta < 0 && this.lineCount < Math.abs(delta)) {
-            System.out.println("[Error]: Negative line count");
+        try {
+            setLineCount(getLineCount() + delta);
+        } catch (NegativeCountException e) {
+            System.out.println(e + ". Count: " + e.getCount());
             System.exit(1);
         }
-        setLineCount(getLineCount() + delta);
     }
 
     public void addText(String text) {
@@ -141,7 +151,12 @@ public final class TextEditor {
     public void setSelectionColor(String colorName) {
         Fragment currFragment = Cursor.fragment;
         if (currFragment instanceof Colorable) {
-            ((Colorable) currFragment).setColor(colorName);
+            try {
+                ((Colorable) currFragment).setColor(colorName);
+            } catch (InvalidColorException e) {
+                System.out.println(e + ". Color: " + e.getColor());
+                System.exit(1);
+            }
         }
     }
 
@@ -172,17 +187,17 @@ public final class TextEditor {
     public void run() {
         redraw();
 
-        wait(2000);
+        wait(1000);
 
         addText("Test\n");
         redraw();
 
-        wait(2000);
+        wait(1000);
 
         setTitle("TestDocument");
         redraw();
 
-        wait(2000);
+        wait(1000);
 
         addUrl("Hyperlink", "https://www.google.com");
         redraw();
@@ -191,13 +206,15 @@ public final class TextEditor {
 
         // By selection we mean the fragment
         // which has the cursor in it
-        setSelectionColor("RED");
+        setSelectionColor("lkasjdfajs");
         redraw();
 
         wait(1000);
 
         // TODO move to finalize?
         System.out.println();
+
+        updateCharCount(-100);
     }
 
     public static void main(String[] args) {
