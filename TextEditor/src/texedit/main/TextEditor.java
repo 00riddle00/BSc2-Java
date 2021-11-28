@@ -2,6 +2,7 @@ package texedit.main;
 
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
+import texedit.main.document.Document;
 import texedit.main.exceptions.InvalidColorException;
 import texedit.main.exceptions.NegativeCountException;
 import texedit.main.fragments.Fragment;
@@ -9,7 +10,6 @@ import texedit.main.fragments.TextFragment;
 import texedit.main.fragments.Url;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author Tomas Giedraitis
@@ -43,38 +43,29 @@ public final class TextEditor {
         return count;
     }
 
+    private Document document;
     private String title;
-    private Date creationDate;
+    private int charCount;
+    private int lineCount;
     private ArrayList<Fragment> fragments;
+
     private Fragment currFragment;
     private Cursor cursor;
     private final String border =
             "====================================" +
                     "==========================================";
-    private int charCount;
-    private int lineCount = 1;
-
-    public TextEditor(String title, Date cd) {
-        this.title = title;
-        creationDate = cd;
-        this.fragments = new ArrayList<Fragment>();
-        this.cursor = Cursor.getInstance();
-    }
-
-    public TextEditor(String title) {
-        this(title, new Date());
-    }
 
     public TextEditor() {
-        this("Untitled");
+        this.document = new Document();
+        this.title = document.getTitle();
+        this.charCount = document.getCharCount();
+        this.lineCount = document.getLineCount();
+        this.fragments = document.getFragments();
+        this.cursor = Cursor.getInstance();
     }
 
     public String getTitle() {
         return this.title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public int getCharCount() {
@@ -223,9 +214,6 @@ public final class TextEditor {
         setSelectionColor("BLUE");
         redraw();
         wait(1000);
-
-        setTitle("TestDocument");
-        redraw();
 
         wait(1000);
 
