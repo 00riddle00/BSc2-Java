@@ -1,6 +1,5 @@
 package texedit.main;
 
-import jdk.jshell.spi.ExecutionControl;
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
 import texedit.main.document.Document;
