@@ -1,6 +1,5 @@
 package texedit.main.document;
 
-import texedit.main.cursor.Cursor;
 import texedit.main.fragments.Fragment;
 
 import java.util.ArrayList;
@@ -16,8 +15,8 @@ public class Document {
 
     private ArrayList<Fragment> fragments;
 
-    public Document() {
-        this.title = "Untitled";
+    public Document(String title) {
+        this.title = title;
         this.createdDate = new Date();
         this.lastModifiedDate = this.createdDate;
         this.fragments = new ArrayList<Fragment>();

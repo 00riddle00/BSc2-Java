@@ -1,5 +1,6 @@
 package texedit.main;
 
+import jdk.jshell.spi.ExecutionControl;
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
 import texedit.main.document.Document;
@@ -55,13 +56,17 @@ public final class TextEditor {
             "====================================" +
                     "==========================================";
 
-    public TextEditor() {
-        this.document = new Document();
+    public void newDocument() {
+        this.document = new Document("Untitled");
         this.title = document.getTitle();
         this.charCount = document.getCharCount();
         this.lineCount = document.getLineCount();
         this.fragments = document.getFragments();
         this.cursor = Cursor.getInstance();
+    }
+
+    public void openDocument(String fileName) {
+        // Not implemented yet
     }
 
     public String getTitle() {
@@ -139,7 +144,7 @@ public final class TextEditor {
         Cursor.setPositionInFragment(len);
     }
 
-    public void duplicate() {
+    public void duplicateSelection() {
         Fragment currFragment = this.fragments.get(this.fragments.size() - 1);
 
         try {
@@ -206,7 +211,7 @@ public final class TextEditor {
 
         wait(1000);
 
-        duplicate();
+        duplicateSelection();
         redraw();
 
         wait(1000);
@@ -235,6 +240,13 @@ public final class TextEditor {
 
     public static void main(String[] args) {
         TextEditor editor = new TextEditor();
+
+        switch (args.length) {
+            case 0 -> editor.newDocument();
+            case 1 -> editor.openDocument(args[0]);
+            default -> { System.out.println("[Error]: Too many arguments"); System.exit(1); }
+        }
+
         editor.run();
     }
 }
