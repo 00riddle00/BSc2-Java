@@ -2,10 +2,11 @@ package texedit.main.document;
 
 import texedit.main.fragments.Fragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Document {
+public class Document implements Serializable {
 
     private String title;
     private Date createdDate;

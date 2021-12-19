@@ -1,6 +1,8 @@
 package texedit.main.fragments;
 
-public abstract class Fragment implements Cloneable {
+import java.io.Serializable;
+
+public abstract class Fragment implements Serializable, Cloneable {
 
     protected String text;
     protected int length;

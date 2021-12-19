@@ -2,7 +2,9 @@ package texedit.main.colorable;
 
 import texedit.main.exceptions.InvalidColorException;
 
-public class ColorableImpl implements ColorableWithANSI, Cloneable {
+import java.io.Serializable;
+
+public class ColorableImpl implements Serializable, ColorableWithANSI, Cloneable {
     private String colorName;
     private String colorEscSeq;
     private boolean isColored;

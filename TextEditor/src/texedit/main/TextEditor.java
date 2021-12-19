@@ -1,5 +1,6 @@
 package texedit.main;
 
+import org.w3c.dom.Text;
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
 import texedit.main.document.Document;
@@ -11,6 +12,15 @@ import texedit.main.fragments.Url;
 import texedit.main.shapes.Shape;
 import texedit.main.shapes.ShapeCache;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 
 /**
@@ -45,6 +55,11 @@ public final class TextEditor {
         return count;
     }
 
+    // TODO move to utilities
+    private static boolean strIsEmpty(String str) {
+        return str == null || str.trim().isEmpty();
+    }
+
     private Document document;
     private String title;
     private int charCount;
@@ -53,22 +68,64 @@ public final class TextEditor {
 
     private Fragment currFragment;
     private Cursor cursor;
-    private final String border =
+    private String notificationMessage;
+    private final String mainBorder =
             "====================================" +
                     "==========================================";
+    private final String notificationBorder =
+            "------------------------------------" +
+                    "------------------------------------------";
 
-    public void newDocument() {
-        this.document = new Document("Untitled");
+    public TextEditor() {
+        ShapeCache.loadCache();
+        this.cursor = Cursor.getInstance();
+    }
+
+    public void loadDocument() {
         this.title = document.getTitle();
         this.charCount = document.getCharCount();
         this.lineCount = document.getLineCount();
         this.fragments = document.getFragments();
-        this.cursor = Cursor.getInstance();
-        ShapeCache.loadCache();
     }
 
-    public void openDocument(String fileName) {
-        // Not implemented yet
+    public void newDocument() {
+        this.document = new Document("Untitled");
+        this.loadDocument();
+    }
+
+    private void openDocument(String filepath) {
+        try {
+            FileInputStream fileIn = new FileInputStream(filepath);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+            this.document = (Document) objectIn.readObject();
+            objectIn.close();
+            this.setNotificationMessage("The document '" + this.document.getTitle() + "' is opened");
+        } catch (ClassNotFoundException e) {
+            System.out.println("[Error]: Cannot read from a file");
+            e.printStackTrace();
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("[Error]: Cannot open file '" + filepath + "'");
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        this.loadDocument();
+    }
+
+    private void saveDocument() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("/home/riddle/" + this.document.getTitle() + ".edt");
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(this.document);
+            objectOut.flush();
+            objectOut.close();
+            this.setNotificationMessage("The document '" + this.getTitle() + "' was succesfully written to a file");
+        } catch (IOException e) {
+            System.out.println("[Error]: Cannot write document to a file");
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     public String getTitle() {
@@ -90,11 +147,31 @@ public final class TextEditor {
         return this.lineCount;
     }
 
+    public String getNotificationMessage() {
+        return this.notificationMessage;
+    }
+
     public void setLineCount(int count) throws NegativeCountException {
         if (count < 0) {
             throw new NegativeCountException("Negative line count", count);
         }
         this.lineCount = count;
+    }
+
+    public void setNotificationMessage(String msg) {
+        this.notificationMessage = msg;
+    }
+
+    public void resetNotificationMessage() {
+        setNotificationMessage("");
+    }
+
+    public void printNotificationMessage() {
+        if (!(TextEditor.strIsEmpty(getNotificationMessage()))) {
+            System.out.println(this.notificationBorder);
+            System.out.println(" \uF0F3 " + getNotificationMessage() + " \uF0F3");
+            resetNotificationMessage();
+        }
     }
 
     public void updateCharCount(int delta) {
@@ -198,10 +275,11 @@ public final class TextEditor {
 
     public void printHeader() {
         System.out.println();
-        System.out.println(this.border);
+        System.out.println(this.mainBorder);
         System.out.println("[Title] " + this.getTitle() + " [lines] " +
                 this.getLineCount() + " [characters] " + this.getCharCount());
-        System.out.println(this.border);
+        this.printNotificationMessage();
+        System.out.println(this.mainBorder);
     }
 
     public void printFragments() {
@@ -221,47 +299,52 @@ public final class TextEditor {
     }
 
     public void run() {
-        redraw();
-
-        wait(1000);
-
-        drawShape("Rectangle");
-
-        wait(1000);
-
-        addText("Test\n");
-        redraw();
-
-        wait(1000);
-
-        duplicateSelection();
-        redraw();
-
-        wait(1000);
-
-        setSelectionColor("BLUE");
-        redraw();
-        wait(1000);
-
-        wait(1000);
-
-        addUrl("Hyperlink", "https://www.google.com");
-        redraw();
-
-        wait(1000);
-
-        // By selection we mean the fragment
-        // which has the cursor in it
-        setSelectionColor("RED");
-        redraw();
-
-        wait(1000);
+        this.testOpenAndShow();
+        this.testRunEditAndSave();
 
         // TODO move to finalize?
+        // Needed for a graceful finish
         System.out.println();
     }
 
-    public static void main(String[] args) {
+    public void testRunEditAndSave() {
+        redraw();
+        wait(1000);
+        drawShape("Rectangle");
+        wait(1000);
+        addText("Test\n");
+        redraw();
+        wait(1000);
+        duplicateSelection();
+        redraw();
+        wait(1000);
+        setSelectionColor("BLUE");
+        redraw();
+        wait(1000);
+        addUrl("Hyperlink", "https://www.google.com");
+        redraw();
+        wait(1000);
+        // By selection we mean the fragment which has the cursor in it
+        setSelectionColor("RED");
+        redraw();
+        wait(1000);
+        saveDocument();
+        wait(1000);
+        redraw();
+        wait(1000);
+        redraw();
+        wait(1000);
+    }
+
+    public void testOpenAndShow() {
+        redraw();
+        wait(2000);
+
+        redraw();
+        wait(2000);
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         TextEditor editor = new TextEditor();
 
         switch (args.length) {
