@@ -1,6 +1,5 @@
 package texedit.main;
 
-import org.w3c.dom.Text;
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
 import texedit.main.document.Document;
@@ -12,15 +11,11 @@ import texedit.main.fragments.Url;
 import texedit.main.shapes.Shape;
 import texedit.main.shapes.ShapeCache;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Writer;
 import java.util.ArrayList;
 
 /**
