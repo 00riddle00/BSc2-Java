@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * <p>
  * Text Editor - the main class of the project
  */
-public final class TextEditor implements Runnable {
+public final class TextEditor {
 
     public static final short MAX_CHARS = 400;
 
