@@ -1,5 +1,7 @@
 package texedit.main;
 
+import shapes.Shape;
+import shapes.ShapeCache;
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
 import texedit.main.document.Document;
@@ -62,6 +64,7 @@ public final class TextEditor {
         this.lineCount = document.getLineCount();
         this.fragments = document.getFragments();
         this.cursor = Cursor.getInstance();
+        ShapeCache.loadCache();
     }
 
     public void openDocument(String fileName) {
@@ -143,6 +146,23 @@ public final class TextEditor {
         Cursor.setPositionInFragment(len);
     }
 
+    public void drawShape(String shapeName) {
+        String shapeId = "";
+
+        switch (shapeName) {
+            case "Circle" -> shapeId = "1";
+            case "Square" -> shapeId = "2";
+            case "Rectangle" -> shapeId = "3";
+            default -> {
+                System.out.println("[Error]: Nonexistent shape chosen: " + shapeName);
+                System.exit(1);
+            }
+        }
+
+        Shape clonedShape = (Shape) ShapeCache.getShape(shapeId);
+        clonedShape.draw();
+    }
+
     public void duplicateSelection() {
         Fragment currFragment = this.fragments.get(this.fragments.size() - 1);
 
@@ -205,6 +225,10 @@ public final class TextEditor {
 
         wait(1000);
 
+        drawShape("Rectangle");
+
+        wait(1000);
+
         addText("Test\n");
         redraw();
 
@@ -243,7 +267,10 @@ public final class TextEditor {
         switch (args.length) {
             case 0 -> editor.newDocument();
             case 1 -> editor.openDocument(args[0]);
-            default -> { System.out.println("[Error]: Too many arguments"); System.exit(1); }
+            default -> {
+                System.out.println("[Error]: Too many arguments");
+                System.exit(1);
+            }
         }
 
         editor.run();
