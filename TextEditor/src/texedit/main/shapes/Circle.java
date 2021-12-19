@@ -1,4 +1,4 @@
-package shapes;
+package texedit.main.shapes;
 
 public class Circle extends Shape {
 
