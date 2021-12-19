@@ -1,5 +1,7 @@
 package texedit.main;
 
+import texedit.main.FileIO.FileOpener;
+import texedit.main.FileIO.FileSaver;
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
 import texedit.main.document.Document;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
  * <p>
  * Text Editor - the main class of the project
  */
-public final class TextEditor {
+public final class TextEditor implements Runnable {
 
     public static final short MAX_CHARS = 400;
 
@@ -88,39 +90,22 @@ public final class TextEditor {
         this.loadDocument();
     }
 
-    private void openDocument(String filepath) {
-        try {
-            FileInputStream fileIn = new FileInputStream(filepath);
-            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-            this.document = (Document) objectIn.readObject();
-            objectIn.close();
-            this.setNotificationMessage("The document '" + this.document.getTitle() + "' is opened");
-        } catch (ClassNotFoundException e) {
-            System.out.println("[Error]: Cannot read from a file");
-            e.printStackTrace();
-            System.exit(1);
-        } catch (IOException e) {
-            System.out.println("[Error]: Cannot open file '" + filepath + "'");
-            e.printStackTrace();
-            System.exit(1);
-        }
+    private void openDocument(String filepath) throws InterruptedException {
+        FileOpener fileOpener = new FileOpener(filepath);
+        Thread fileOpenerThread = new Thread(fileOpener);
+        fileOpenerThread.start();
+        fileOpenerThread.join();
 
+        this.document = fileOpener.getOpenedDocument();
         this.loadDocument();
+
+        this.setNotificationMessage("The document '" + this.document.getTitle() + "' is opened");
     }
 
     private void saveDocument() {
-        try {
-            FileOutputStream fileOut = new FileOutputStream("/home/riddle/" + this.document.getTitle() + ".edt");
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject(this.document);
-            objectOut.flush();
-            objectOut.close();
-            this.setNotificationMessage("The document '" + this.getTitle() + "' was succesfully written to a file");
-        } catch (IOException e) {
-            System.out.println("[Error]: Cannot write document to a file");
-            e.printStackTrace();
-            System.exit(1);
-        }
+        FileSaver fileSaver = new FileSaver(this.document);
+        new Thread(fileSaver).start();
+        //this.setNotificationMessage("The document '" + this.document.getTitle() + "' was succesfully written to a file");
     }
 
     public String getTitle() {
@@ -294,11 +279,11 @@ public final class TextEditor {
     }
 
     public void run() {
-        this.testOpenAndShow();
+//        this.testOpenAndShow();
         this.testRunEditAndSave();
 
         // TODO move to finalize?
-        // Needed for a graceful finish
+        // Needed for a graceful exit
         System.out.println();
     }
 
@@ -339,7 +324,7 @@ public final class TextEditor {
         wait(2000);
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws InterruptedException {
         TextEditor editor = new TextEditor();
 
         switch (args.length) {
@@ -354,3 +339,8 @@ public final class TextEditor {
         editor.run();
     }
 }
+
+
+
+
+
