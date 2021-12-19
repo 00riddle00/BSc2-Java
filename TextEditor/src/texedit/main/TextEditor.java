@@ -1,7 +1,5 @@
 package texedit.main;
 
-import shapes.Shape;
-import shapes.ShapeCache;
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
 import texedit.main.document.Document;
@@ -10,6 +8,8 @@ import texedit.main.exceptions.NegativeCountException;
 import texedit.main.fragments.Fragment;
 import texedit.main.fragments.TextFragment;
 import texedit.main.fragments.Url;
+import texedit.main.shapes.Shape;
+import texedit.main.shapes.ShapeCache;
 
 import java.util.ArrayList;
 
