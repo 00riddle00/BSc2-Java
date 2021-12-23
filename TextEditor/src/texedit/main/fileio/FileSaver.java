@@ -1,4 +1,4 @@
-package texedit.main.FileIO;
+package texedit.main.fileio;
 
 import texedit.main.document.Document;
 
