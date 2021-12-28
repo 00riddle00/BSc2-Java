@@ -1,7 +1,7 @@
 package texedit.main;
 
-import texedit.main.FileIO.FileOpener;
-import texedit.main.FileIO.FileSaver;
+import texedit.main.fileio.FileOpener;
+import texedit.main.fileio.FileSaver;
 import texedit.main.colorable.Colorable;
 import texedit.main.cursor.Cursor;
 import texedit.main.document.Document;
@@ -10,6 +10,7 @@ import texedit.main.exceptions.NegativeCountException;
 import texedit.main.fragments.Fragment;
 import texedit.main.fragments.TextFragment;
 import texedit.main.fragments.Url;
+import texedit.main.gui.GraphicalEditor;
 import texedit.main.shapes.Shape;
 import texedit.main.shapes.ShapeCache;
 
@@ -198,17 +199,22 @@ public final class TextEditor {
         Cursor.setPositionInFragment(len);
     }
 
-    public void drawShape(String shapeName) {
+        public void drawShape(String shapeName) {
         String shapeId = "";
 
         switch (shapeName) {
-            case "Circle" -> shapeId = "1";
-            case "Square" -> shapeId = "2";
-            case "Rectangle" -> shapeId = "3";
-            default -> {
+            case "Circle":
+                shapeId = "1";
+                break;
+            case "Square":
+                shapeId = "2";
+                break;
+            case "Rectangle":
+                shapeId = "3";
+                break;
+            default:
                 System.out.println("[Error]: Nonexistent shape chosen: " + shapeName);
                 System.exit(1);
-            }
         }
 
         Shape clonedShape = (Shape) ShapeCache.getShape(shapeId);
@@ -319,19 +325,23 @@ public final class TextEditor {
         wait(2000);
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         TextEditor editor = new TextEditor();
 
         switch (args.length) {
-            case 0 -> editor.newDocument();
-            case 1 -> editor.openDocument(args[0]);
-            default -> {
+            case 0:
+                editor.newDocument();
+                break;
+            case 1:
+                editor.openDocument(args[0]);
+                break;
+            default:
                 System.out.println("[Error]: Too many arguments");
                 System.exit(1);
-            }
         }
 
-        editor.run();
+//        editor.run();
+        GraphicalEditor.begin();
     }
 }
 

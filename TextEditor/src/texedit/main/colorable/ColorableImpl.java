@@ -16,20 +16,32 @@ public class ColorableImpl implements Serializable, ColorableWithANSI, Cloneable
         }
         return this.colorEscSeq;
     }
-
     public void setColor(String colorName) throws InvalidColorException {
         switch (colorName) {
-            case "BLACK" -> colorEscSeq = "\033[0;30m";
-            case "RED" -> colorEscSeq = "\033[0;31m";
-            case "GREEN" -> colorEscSeq = "\033[0;32m";
-            case "YELLOW" -> colorEscSeq = "\033[0;33m";
-            case "BLUE" -> colorEscSeq = "\033[0;34m";
-            case "PURPLE" -> colorEscSeq = "\033[0;35m";
-            case "CYAN" -> colorEscSeq = "\033[0;36m";
-            case "WHITE" -> colorEscSeq = "\033[0;37m";
-            default -> {
+            case "BLACK":
+                colorEscSeq = "\033[0;30m";
+                break;
+            case "RED":
+                colorEscSeq = "\033[0;31m";
+                break;
+            case "GREEN":
+                colorEscSeq = "\033[0;32m";
+                break;
+            case "YELLOW":
+                colorEscSeq = "\033[0;33m";
+                break;
+            case "BLUE":
+                colorEscSeq = "\033[0;34m";
+                break;
+            case "PURPLE":
+                colorEscSeq = "\033[0;35m";
+                break;
+            case "CYAN":
+                colorEscSeq = "\033[0;36m";
+                break;
+            case "WHITE": colorEscSeq = "\033[0;37m";
+            default:
                 throw new InvalidColorException("No such color", colorName);
-            }
         }
         this.colorName = colorName;
         this.isColored = true;
