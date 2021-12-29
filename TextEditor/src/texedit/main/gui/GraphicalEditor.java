@@ -5,7 +5,9 @@ import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
+import javax.swing.text.StyledEditorKit.*;
 
 public class GraphicalEditor {
 
@@ -32,9 +34,9 @@ public class GraphicalEditor {
 
         frame = new JFrame(MAIN_TITLE);
         textPane = new JTextPane();
-        textPane.setEditorKit(JEditorPane.createEditorKitForContentType("text/html"));
-
         JScrollPane scrollPane = new JScrollPane(textPane);
+
+        textPane.setDocument(new DefaultStyledDocument());
 
         CutCopyPasteHandler cutCopyPasteHandler = new CutCopyPasteHandler();
 
@@ -53,10 +55,35 @@ public class GraphicalEditor {
         pasteButton.setText("Paste");
         pasteButton.addActionListener(cutCopyPasteHandler);
 
+        JButton boldButton = new JButton(new BoldAction());
+        boldButton.setHideActionText(true);
+        boldButton.setText("Bold");
+        boldButton.addActionListener(cutCopyPasteHandler);
+
+        JButton italicButton = new JButton(new ItalicAction());
+        italicButton.setHideActionText(true);
+        italicButton.setText("Italic");
+        italicButton.addActionListener(cutCopyPasteHandler);
+
+        JButton underlineButton = new JButton(new UnderlineAction());
+        underlineButton.setHideActionText(true);
+        underlineButton.setText("Underline");
+        underlineButton.addActionListener(cutCopyPasteHandler);
+
+        JButton colorButton = new JButton("Set Color");
+        colorButton.addActionListener(new ColorActionListener());
+
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.add(cutButton);
         panel.add(copyButton);
         panel.add(pasteButton);
+        panel.add(new JSeparator(SwingConstants.VERTICAL));
+        panel.add(boldButton);
+        panel.add(italicButton);
+        panel.add(underlineButton);
+        panel.add(new JSeparator(SwingConstants.VERTICAL));
+        panel.add(colorButton);
+        panel.add(new JSeparator(SwingConstants.VERTICAL));
 
         JPanel toolBarPanel = new JPanel();
         toolBarPanel.setLayout(new BoxLayout(toolBarPanel, BoxLayout.PAGE_AXIS));
@@ -74,8 +101,26 @@ public class GraphicalEditor {
     }
 
     private class CutCopyPasteHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            textPane.requestFocusInWindow();
+        }
+    }
+
+    private class ColorActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
+
+            Color newColor = JColorChooser.showDialog(frame, "Choose a color",
+                    Color.BLACK);
+            if (newColor == null) {
+
+                textPane.requestFocusInWindow();
+                return;
+            }
+
+            SimpleAttributeSet attr = new SimpleAttributeSet();
+            StyleConstants.setForeground(attr, newColor);
+            textPane.setCharacterAttributes(attr, false);
             textPane.requestFocusInWindow();
         }
     }
