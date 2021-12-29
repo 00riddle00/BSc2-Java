@@ -339,11 +339,7 @@ public final class TextEditor {
                 System.exit(1);
         }
 
-        GraphicalEditor.begin(cmdEditor);
+//        cmdEditor.testRun();
+        GraphicalEditor.begin();
     }
 }
-
-
-
-
-

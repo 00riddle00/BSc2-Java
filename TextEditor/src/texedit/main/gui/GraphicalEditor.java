@@ -1,53 +1,40 @@
 package texedit.main.gui;
 
 import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
-import texedit.main.TextEditor;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
 
 public class GraphicalEditor {
 
-    private TextEditor cmdEditor;
-
     private JFrame frame;
-    private JEditorPane editorPane;
-    private DocumentFilter docFilter;
-    private final int maxCharacters = 50;
+    private JTextPane textPane;
 
     private static final String MAIN_TITLE = "txedt";
     private static final String DEFAULT_FONT_FAMILY = "Source Code Pro";
     private static final int DEFAULT_FONT_SIZE = 20;
 
-    public static void begin(TextEditor cmdEditor) throws Exception {
+    public static void begin() throws Exception {
 
-        UIManager.put("EditorPane.font", new Font(DEFAULT_FONT_FAMILY, Font.PLAIN, DEFAULT_FONT_SIZE));
+        UIManager.put("TextPane.font", new Font(DEFAULT_FONT_FAMILY, Font.PLAIN, DEFAULT_FONT_SIZE));
         UIManager.setLookAndFeel(new GTKLookAndFeel());
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new GraphicalEditor().createAndShowGui(cmdEditor);
+                new GraphicalEditor().createAndShowGui();
             }
         });
     }
 
-    private void createAndShowGui(TextEditor cmdEditor) {
-        this.cmdEditor = cmdEditor;
-        this.docFilter = new MyDocumentFilter();
+    private void createAndShowGui() {
 
         frame = new JFrame(MAIN_TITLE);
-        editorPane = new JEditorPane();
-        editorPane.setEditorKit(JEditorPane.createEditorKitForContentType("text/html"));
+        textPane = new JTextPane();
+        textPane.setEditorKit(JEditorPane.createEditorKitForContentType("text/html"));
 
-        JScrollPane scrollPane = new JScrollPane(editorPane);
-
-        AbstractDocument document = (AbstractDocument) editorPane.getDocument();
-        document.setDocumentFilter(docFilter);
+        JScrollPane scrollPane = new JScrollPane(textPane);
 
         CutCopyPasteHandler cutCopyPasteHandler = new CutCopyPasteHandler();
 
@@ -83,55 +70,13 @@ public class GraphicalEditor {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-        editorPane.requestFocusInWindow();
-    }
-
-    class MyDocumentFilter extends DocumentFilter {
-
-        @Override
-        public void insertString(FilterBypass fb, int offs, String str,
-                                 AttributeSet a) throws BadLocationException {
-
-            String text = fb.getDocument().getText(0,
-                    fb.getDocument().getLength());
-            text += str;
-
-            if ((fb.getDocument().getLength() + str.length()) <= maxCharacters) {
-                super.insertString(fb, offs, str, a);
-            } else {
-                System.out.println("too many chars");
-            }
-        }
-
-        @Override
-        public void replace(FilterBypass fb, int offs, int length, String str,
-                            AttributeSet a) throws BadLocationException {
-
-            String text = fb.getDocument().getText(0,
-                    fb.getDocument().getLength());
-            text += str;
-
-            if ((fb.getDocument().getLength() + str.length() - length) <= maxCharacters) {
-                cmdEditor.addText(str);
-                cmdEditor.redraw();
-                super.replace(fb, offs, length, str, a);
-            } else {
-                System.out.println("too many chars");
-            }
-        }
-
-        @Override
-        public void remove(FilterBypass fb, int offset, int length)
-                throws BadLocationException {
-            super.remove(fb, offset, length);
-        }
-
+        textPane.requestFocusInWindow();
     }
 
     private class CutCopyPasteHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            editorPane.requestFocusInWindow();
+            textPane.requestFocusInWindow();
         }
     }
 }
