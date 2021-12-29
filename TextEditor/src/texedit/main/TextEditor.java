@@ -279,16 +279,15 @@ public final class TextEditor {
         }
     }
 
-    public void run() {
-//        this.testOpenAndShow();
-        this.testRunEditAndSave();
+    public void testRun() {
+//        this.testOpenFile();
+        this.testEditAndSaveFile();
 
-        // TODO move to finalize?
         // Needed for a graceful exit
         System.out.println();
     }
 
-    public void testRunEditAndSave() {
+    public void testEditAndSaveFile() {
         redraw();
         wait(1000);
         drawShape("Rectangle");
@@ -317,7 +316,7 @@ public final class TextEditor {
         wait(1000);
     }
 
-    public void testOpenAndShow() {
+    public void testOpenFile() {
         redraw();
         wait(2000);
 
@@ -326,21 +325,20 @@ public final class TextEditor {
     }
 
     public static void main(String[] args) throws Exception {
-        TextEditor editor = new TextEditor();
+        TextEditor cmdEditor = new TextEditor();
 
         switch (args.length) {
             case 0:
-                editor.newDocument();
+                cmdEditor.newDocument();
                 break;
             case 1:
-                editor.openDocument(args[0]);
+                cmdEditor.openDocument(args[0]);
                 break;
             default:
                 System.out.println("[Error]: Too many arguments");
                 System.exit(1);
         }
 
-//        editor.run();
         GraphicalEditor.begin();
     }
 }
