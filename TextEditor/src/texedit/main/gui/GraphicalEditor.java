@@ -4,6 +4,8 @@ import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
@@ -13,7 +15,13 @@ public class GraphicalEditor {
 
     private JFrame frame;
     private JTextPane textPane;
+    private JComboBox fontDropDown;
     private JComboBox textSizeDropdown;
+    private String fonts[] = {"DejaVu Sans", "DejaVu Sans Mono", "DejaVu Serif", "DejaVuSansMono Nerd Font",
+            "DejaVuSansMono Nerd Font Mono", "DroidSansMono Nerd Font", "DroidSansMono Nerd Font Mono", "Inconsolata Nerd Font",
+            "Inconsolata Nerd Font Mono", "Liberation Mono", "Liberation Sans", "Liberation Serif", "Monospaced", "Noto Color Emoji",
+            "Noto Sans", "Noto Serif", "Palemonas", "RobotoMono Nerd Font", "RobotoMono Nerd Font Mono", "SansSerif",
+            "SauceCodePro Nerd Font", "SauceCodePro Nerd Font Mono", "Serif", "Source Code Pro", "Symbola"};
     private String textSizes[] = {"8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"};
 
     public static void begin() throws Exception {
@@ -32,6 +40,11 @@ public class GraphicalEditor {
         textPane = new JTextPane();
         textPane.setDocument(new DefaultStyledDocument());
         JScrollPane scrollPane = new JScrollPane(textPane);
+
+        fontDropDown = new JComboBox(fonts);
+        fontDropDown.setEditable(false);
+        fontDropDown.addItemListener(new FontHandler());
+        fontDropDown.setSelectedItem("Source Code Pro");
 
         textSizeDropdown = new JComboBox(textSizes);
         textSizeDropdown.addItemListener(new TextSizeHandler());
@@ -52,6 +65,7 @@ public class GraphicalEditor {
         colorButton.addActionListener(new ColorHandler());
 
         JPanel stylePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        stylePanel.add(fontDropDown);
         stylePanel.add(textSizeDropdown);
         stylePanel.add(boldButton);
         stylePanel.add(italicButton);
@@ -91,9 +105,25 @@ public class GraphicalEditor {
         textPane.requestFocusInWindow();
     }
 
-    private class CutCopyPasteHandler implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            textPane.requestFocusInWindow();
+    private class FontHandler implements ItemListener {
+
+        public void itemStateChanged(ItemEvent event) {
+            if ((event.getStateChange() == ItemEvent.SELECTED) && (fontDropDown.getSelectedIndex() != 0)) {
+                String font = (String) event.getItem();
+                fontDropDown.setAction(new FontFamilyAction(font, font));
+                textPane.requestFocusInWindow();
+            }
+        }
+    }
+
+    private class TextSizeHandler implements ItemListener {
+
+        public void itemStateChanged(ItemEvent event) {
+            if ((event.getStateChange() == ItemEvent.SELECTED) && (textSizeDropdown.getSelectedIndex() != 0)) {
+                String textSize = (String) event.getItem();
+                textSizeDropdown.setAction(new FontSizeAction(textSize, Integer.parseInt(textSize)));
+                textPane.requestFocusInWindow();
+            }
         }
     }
 
@@ -111,14 +141,9 @@ public class GraphicalEditor {
         }
     }
 
-    private class TextSizeHandler implements ItemListener {
-
-        public void itemStateChanged(ItemEvent event) {
-            if ((event.getStateChange() == ItemEvent.SELECTED) && (textSizeDropdown.getSelectedIndex() != 0)) {
-                String textSize = (String) event.getItem();
-                textSizeDropdown.setAction(new FontSizeAction(textSize, Integer.parseInt(textSize)));
-                textPane.requestFocusInWindow();
-            }
+    private class CutCopyPasteHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            textPane.requestFocusInWindow();
         }
     }
 }
