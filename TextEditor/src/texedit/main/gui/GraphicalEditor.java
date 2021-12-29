@@ -1,17 +1,22 @@
 package texedit.main.gui;
 
 import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
+import texedit.main.TextEditor;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
 
 public class GraphicalEditor {
 
     private JFrame frame;
-    private JTextPane textPane;
+    private JEditorPane editorPane;
+    private DocumentFilter docFilter;
+    private final int maxCharacters = 50;
 
     private static final String MAIN_TITLE = "txedt";
     private static final String DEFAULT_FONT_FAMILY = "Source Code Pro";
@@ -19,22 +24,27 @@ public class GraphicalEditor {
 
     public static void begin() throws Exception {
 
-        UIManager.put("TextPane.font", new Font(DEFAULT_FONT_FAMILY, Font.PLAIN, DEFAULT_FONT_SIZE));
+        UIManager.put("EditorPane.font", new Font(DEFAULT_FONT_FAMILY, Font.PLAIN, DEFAULT_FONT_SIZE));
         UIManager.setLookAndFeel(new GTKLookAndFeel());
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new GraphicalEditor().startEditing();
+                new GraphicalEditor().createAndShowGui();
             }
         });
     }
 
-    private void startEditing() {
+    private void createAndShowGui() {
+        this.docFilter = new MyDocumentFilter();
 
         frame = new JFrame(MAIN_TITLE);
-        textPane = new JTextPane();
-        JScrollPane scrollPane = new JScrollPane(textPane);
-        textPane.setDocument(new DefaultStyledDocument());
+        editorPane = new JEditorPane();
+        editorPane.setEditorKit(JEditorPane.createEditorKitForContentType("text/html"));
+
+        JScrollPane scrollPane = new JScrollPane(editorPane);
+
+        AbstractDocument document = (AbstractDocument) editorPane.getDocument();
+        document.setDocumentFilter(docFilter);
 
         CutCopyPasteHandler cutCopyPasteHandler = new CutCopyPasteHandler();
 
@@ -70,13 +80,54 @@ public class GraphicalEditor {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-        textPane.requestFocusInWindow();
+        editorPane.requestFocusInWindow();
     }
+
+    class MyDocumentFilter extends DocumentFilter {
+        public void replace(FilterBypass fb, int offs, int length, String str,
+                            AttributeSet a) throws BadLocationException {
+
+            String text = fb.getDocument().getText(0,
+                    fb.getDocument().getLength());
+            text += str;
+
+            if ((fb.getDocument().getLength() + str.length() - length) <= maxCharacters) {
+                super.replace(fb, offs, length, str, a);
+            } else {
+                System.out.println("too many chars");
+            }
+        }
+
+        public void insertString(FilterBypass fb, int offs, String str,
+                                 AttributeSet a) throws BadLocationException {
+
+            String text = fb.getDocument().getText(0,
+                    fb.getDocument().getLength());
+            text += str;
+
+            if ((fb.getDocument().getLength() + str.length()) <= maxCharacters) {
+                super.insertString(fb, offs, str, a);
+            } else {
+                System.out.println("too many chars");
+            }
+        }
+    }
+
 
     private class CutCopyPasteHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            textPane.requestFocusInWindow();
+            editorPane.requestFocusInWindow();
         }
     }
+
+
+    private static void wait(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
 }
