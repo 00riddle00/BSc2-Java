@@ -84,6 +84,23 @@ public class GraphicalEditor {
     }
 
     class MyDocumentFilter extends DocumentFilter {
+
+        @Override
+        public void insertString(FilterBypass fb, int offs, String str,
+                                 AttributeSet a) throws BadLocationException {
+
+            String text = fb.getDocument().getText(0,
+                    fb.getDocument().getLength());
+            text += str;
+
+            if ((fb.getDocument().getLength() + str.length()) <= maxCharacters) {
+                super.insertString(fb, offs, str, a);
+            } else {
+                System.out.println("too many chars");
+            }
+        }
+
+        @Override
         public void replace(FilterBypass fb, int offs, int length, String str,
                             AttributeSet a) throws BadLocationException {
 
@@ -98,19 +115,12 @@ public class GraphicalEditor {
             }
         }
 
-        public void insertString(FilterBypass fb, int offs, String str,
-                                 AttributeSet a) throws BadLocationException {
-
-            String text = fb.getDocument().getText(0,
-                    fb.getDocument().getLength());
-            text += str;
-
-            if ((fb.getDocument().getLength() + str.length()) <= maxCharacters) {
-                super.insertString(fb, offs, str, a);
-            } else {
-                System.out.println("too many chars");
-            }
+        @Override
+        public void remove(FilterBypass fb, int offset, int length)
+                throws BadLocationException {
+            super.remove(fb, offset, length);
         }
+
     }
 
 
