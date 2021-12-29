@@ -4,8 +4,6 @@ import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
@@ -61,7 +59,9 @@ public class GraphicalEditor {
         underlineButton.setText("Underline");
         underlineButton.addActionListener(new CutCopyPasteHandler());
 
-        JButton colorButton = new JButton("Color");
+        Icon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/setColor.png"));
+        JButton colorButton = new JButton(icon);
+        colorButton.setPreferredSize(new Dimension(30, 30));
         colorButton.addActionListener(new ColorHandler());
 
         JPanel stylePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
