@@ -13,14 +13,12 @@ public class GraphicalEditor {
 
     private JFrame frame;
     private JTextPane textPane;
-
-    private static final String MAIN_TITLE = "txedt";
-    private static final String DEFAULT_FONT_FAMILY = "Source Code Pro";
-    private static final int DEFAULT_FONT_SIZE = 20;
+    private JComboBox textSizeDropdown;
+    private String textSizes[] = {"8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"};
 
     public static void begin() throws Exception {
 
-        UIManager.put("TextPane.font", new Font(DEFAULT_FONT_FAMILY, Font.PLAIN, DEFAULT_FONT_SIZE));
+        UIManager.put("TextPane.font", new Font("Source Code Pro", Font.PLAIN, 20));
         UIManager.setLookAndFeel(new GTKLookAndFeel());
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -32,7 +30,7 @@ public class GraphicalEditor {
 
     private void createAndShowGui() {
 
-        frame = new JFrame(MAIN_TITLE);
+        frame = new JFrame("txedt");
         textPane = new JTextPane();
         JScrollPane scrollPane = new JScrollPane(textPane);
 
@@ -73,17 +71,18 @@ public class GraphicalEditor {
         JButton colorButton = new JButton("Set Color");
         colorButton.addActionListener(new ColorActionListener());
 
+        textSizeDropdown = new JComboBox(textSizes);
+        textSizeDropdown.addItemListener(new TextSizeHandler());
+
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.add(cutButton);
         panel.add(copyButton);
         panel.add(pasteButton);
-        panel.add(new JSeparator(SwingConstants.VERTICAL));
         panel.add(boldButton);
         panel.add(italicButton);
         panel.add(underlineButton);
-        panel.add(new JSeparator(SwingConstants.VERTICAL));
         panel.add(colorButton);
-        panel.add(new JSeparator(SwingConstants.VERTICAL));
+        panel.add(textSizeDropdown);
 
         JPanel toolBarPanel = new JPanel();
         toolBarPanel.setLayout(new BoxLayout(toolBarPanel, BoxLayout.PAGE_AXIS));
@@ -122,6 +121,17 @@ public class GraphicalEditor {
             StyleConstants.setForeground(attr, newColor);
             textPane.setCharacterAttributes(attr, false);
             textPane.requestFocusInWindow();
+        }
+    }
+
+    private class TextSizeHandler implements ItemListener {
+
+        public void itemStateChanged(ItemEvent event) {
+            if ((event.getStateChange() == ItemEvent.SELECTED) && (textSizeDropdown.getSelectedIndex() != 0)) {
+                String textSize = (String) event.getItem();
+                textSizeDropdown.setAction(new FontSizeAction(textSize, Integer.parseInt(textSize)));
+                textPane.requestFocusInWindow();
+            }
         }
     }
 }
