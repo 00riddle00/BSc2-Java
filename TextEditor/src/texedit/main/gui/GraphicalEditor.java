@@ -13,6 +13,8 @@ import javax.swing.text.DefaultEditorKit.*;
 
 public class GraphicalEditor {
 
+    private TextEditor cmdEditor;
+
     private JFrame frame;
     private JEditorPane editorPane;
     private DocumentFilter docFilter;
@@ -22,19 +24,20 @@ public class GraphicalEditor {
     private static final String DEFAULT_FONT_FAMILY = "Source Code Pro";
     private static final int DEFAULT_FONT_SIZE = 20;
 
-    public static void begin() throws Exception {
+    public static void begin(TextEditor cmdEditor) throws Exception {
 
         UIManager.put("EditorPane.font", new Font(DEFAULT_FONT_FAMILY, Font.PLAIN, DEFAULT_FONT_SIZE));
         UIManager.setLookAndFeel(new GTKLookAndFeel());
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new GraphicalEditor().createAndShowGui();
+                new GraphicalEditor().createAndShowGui(cmdEditor);
             }
         });
     }
 
-    private void createAndShowGui() {
+    private void createAndShowGui(TextEditor cmdEditor) {
+        this.cmdEditor = cmdEditor;
         this.docFilter = new MyDocumentFilter();
 
         frame = new JFrame(MAIN_TITLE);
@@ -109,6 +112,8 @@ public class GraphicalEditor {
             text += str;
 
             if ((fb.getDocument().getLength() + str.length() - length) <= maxCharacters) {
+                cmdEditor.addText(str);
+                cmdEditor.redraw();
                 super.replace(fb, offs, length, str, a);
             } else {
                 System.out.println("too many chars");
@@ -123,21 +128,10 @@ public class GraphicalEditor {
 
     }
 
-
     private class CutCopyPasteHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             editorPane.requestFocusInWindow();
         }
     }
-
-
-    private static void wait(int ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
 }
