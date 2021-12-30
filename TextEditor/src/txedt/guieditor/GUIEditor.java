@@ -75,21 +75,21 @@ public class GUIEditor {
         boldButton.setPreferredSize(new Dimension(30, 30));
         boldButton.setActionCommand("Bold");
         boldButton.addActionListener(new boldItalicUnderlineHandler());
-        boldButton.addActionListener(new CutCopyPasteHandler());
+        boldButton.addActionListener(actionEvent -> textPane.requestFocusInWindow());
 
         Icon italicIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/Italic.png"));
         JButton italicButton = new JButton(italicIcon);
         italicButton.setPreferredSize(new Dimension(30, 30));
         italicButton.setActionCommand("Italic");
         italicButton.addActionListener(new boldItalicUnderlineHandler());
-        italicButton.addActionListener(new CutCopyPasteHandler());
+        italicButton.addActionListener(actionEvent -> textPane.requestFocusInWindow());
 
         Icon underlineIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/Underline.png"));
         JButton underlineButton = new JButton(underlineIcon);
         underlineButton.setPreferredSize(new Dimension(30, 30));
         underlineButton.setActionCommand("Underline");
         underlineButton.addActionListener(new boldItalicUnderlineHandler());
-        underlineButton.addActionListener(new CutCopyPasteHandler());
+        underlineButton.addActionListener(actionEvent -> textPane.requestFocusInWindow());
 
         Icon setColorIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/setColor.png"));
         JButton colorButton = new JButton(setColorIcon);
@@ -125,23 +125,6 @@ public class GUIEditor {
             stylePanel.add(button);
         }
 
-        JButton cutButton = new JButton(new CutAction());
-        cutButton.setText("Cut");
-        cutButton.addActionListener(new CutCopyPasteHandler());
-
-        JButton copyButton = new JButton(new CopyAction());
-        copyButton.setText("Copy");
-        copyButton.addActionListener(new CutCopyPasteHandler());
-
-        JButton pasteButton = new JButton(new PasteAction());
-        pasteButton.setText("Paste");
-        pasteButton.addActionListener(new CutCopyPasteHandler());
-
-        JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        actionPanel.add(cutButton);
-        actionPanel.add(copyButton);
-        actionPanel.add(pasteButton);
-
         JPanel toolBarPanel = new JPanel();
         toolBarPanel.setLayout(new BoxLayout(toolBarPanel, BoxLayout.Y_AXIS));
         toolBarPanel.add(stylePanel);
@@ -150,6 +133,7 @@ public class GUIEditor {
         frame.add(scrollPane, BorderLayout.CENTER);
 
         JMenuBar menuBar = new JMenuBar();
+
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
 
@@ -172,9 +156,31 @@ public class GUIEditor {
         fileMenu.add(openItem);
         fileMenu.add(saveItem);
         fileMenu.add(quitItem);
-        menuBar.add(fileMenu);
-        frame.setJMenuBar(menuBar);
 
+        JMenu editMenu = new JMenu("Edit");
+        editMenu.setMnemonic(KeyEvent.VK_E);
+
+        JMenuItem cutItem = new JMenuItem("Cut");
+        cutItem.setMnemonic(KeyEvent.VK_X);
+        cutItem.setAction(new CutAction());
+        cutItem.addActionListener(actionEvent -> textPane.requestFocusInWindow());
+        JMenuItem copyItem = new JMenuItem("Copy");
+        copyItem.setMnemonic(KeyEvent.VK_C);
+        copyItem.setAction(new CopyAction());
+        copyItem.addActionListener(actionEvent -> textPane.requestFocusInWindow());
+        JMenuItem pasteItem = new JMenuItem("Paste");
+        pasteItem.setMnemonic(KeyEvent.VK_P);
+        pasteItem.setAction(new PasteAction());
+        pasteItem.addActionListener(actionEvent -> textPane.requestFocusInWindow());
+
+        editMenu.add(cutItem);
+        editMenu.add(copyItem);
+        editMenu.add(pasteItem);
+
+        menuBar.add(fileMenu);
+        menuBar.add(editMenu);
+
+        frame.setJMenuBar(menuBar);
         frame.setSize(800, 600);
         frame.setLocation(200, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -336,12 +342,6 @@ public class GUIEditor {
             } else {
                 return null;
             }
-        }
-    }
-
-    private class CutCopyPasteHandler implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            textPane.requestFocusInWindow();
         }
     }
 }
