@@ -1,17 +1,17 @@
-package texedit.main.cmdeditor;
+package txedt.cmdeditor;
 
-import texedit.main.cmdeditor.fileio.FileOpener;
-import texedit.main.cmdeditor.fileio.FileSaver;
-import texedit.main.cmdeditor.colorable.Colorable;
-import texedit.main.cmdeditor.cursor.Cursor;
-import texedit.main.cmdeditor.document.Document;
-import texedit.main.cmdeditor.exceptions.InvalidColorException;
-import texedit.main.cmdeditor.exceptions.NegativeCountException;
-import texedit.main.cmdeditor.fragments.Fragment;
-import texedit.main.cmdeditor.fragments.TextFragment;
-import texedit.main.cmdeditor.fragments.Url;
-import texedit.main.cmdeditor.shapes.Shape;
-import texedit.main.cmdeditor.shapes.ShapeCache;
+import txedt.cmdeditor.fileio.FileOpener;
+import txedt.cmdeditor.fileio.FileSaver;
+import txedt.cmdeditor.colorable.Colorable;
+import txedt.cmdeditor.cursor.Cursor;
+import txedt.cmdeditor.document.Document;
+import txedt.cmdeditor.exceptions.InvalidColorException;
+import txedt.cmdeditor.exceptions.NegativeCountException;
+import txedt.cmdeditor.fragments.Fragment;
+import txedt.cmdeditor.fragments.TextFragment;
+import txedt.cmdeditor.fragments.Url;
+import txedt.cmdeditor.shapes.Shape;
+import txedt.cmdeditor.shapes.ShapeCache;
 
 import java.util.ArrayList;
 

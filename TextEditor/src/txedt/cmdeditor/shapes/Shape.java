@@ -1,4 +1,4 @@
-package texedit.main.cmdeditor.shapes;
+package txedt.cmdeditor.shapes;
 
 public abstract class Shape implements Cloneable {
 

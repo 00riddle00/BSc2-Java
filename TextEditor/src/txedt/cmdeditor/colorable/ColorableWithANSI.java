@@ -1,4 +1,4 @@
-package texedit.main.cmdeditor.colorable;
+package txedt.cmdeditor.colorable;
 
 public interface ColorableWithANSI extends Colorable {
     String RESET = "\033[0m";

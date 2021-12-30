@@ -1,6 +1,6 @@
-package texedit.main.cmdeditor.document;
+package txedt.cmdeditor.document;
 
-import texedit.main.cmdeditor.fragments.Fragment;
+import txedt.cmdeditor.fragments.Fragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;

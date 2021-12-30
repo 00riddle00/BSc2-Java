@@ -1,7 +1,6 @@
-package texedit.main;
+package txedt;
 
-import texedit.main.cmdeditor.CmdEditor;
-import texedit.main.guieditor.GUIEditor;
+import txedt.guieditor.GUIEditor;
 
 public class Main {
 

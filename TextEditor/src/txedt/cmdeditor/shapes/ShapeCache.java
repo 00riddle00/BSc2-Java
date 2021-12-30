@@ -1,4 +1,4 @@
-package texedit.main.cmdeditor.shapes;
+package txedt.cmdeditor.shapes;
 
 import java.util.Hashtable;
 

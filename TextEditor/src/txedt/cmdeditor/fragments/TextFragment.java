@@ -1,10 +1,10 @@
-package texedit.main.cmdeditor.fragments;
+package txedt.cmdeditor.fragments;
 
-import texedit.main.cmdeditor.colorable.Colorable;
-import texedit.main.cmdeditor.colorable.ColorableImpl;
-import texedit.main.cmdeditor.colorable.ColorableWithANSI;
-import texedit.main.cmdeditor.cursor.Cursor;
-import texedit.main.cmdeditor.exceptions.InvalidColorException;
+import txedt.cmdeditor.colorable.Colorable;
+import txedt.cmdeditor.colorable.ColorableImpl;
+import txedt.cmdeditor.colorable.ColorableWithANSI;
+import txedt.cmdeditor.cursor.Cursor;
+import txedt.cmdeditor.exceptions.InvalidColorException;
 
 public class TextFragment extends Fragment implements Colorable, Cloneable {
 

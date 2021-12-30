@@ -1,4 +1,4 @@
-package texedit.main.guieditor;
+package txedt.guieditor;
 
 import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 
