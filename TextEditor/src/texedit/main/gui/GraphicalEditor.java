@@ -4,6 +4,7 @@ import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
@@ -22,7 +23,8 @@ public class GraphicalEditor {
     private JComboBox textSizeDropdown;
     private String textSizes[] = {"8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"};
     private JComboBox textAlignDropDown;
-    private String alignments[] = {"Align Text", "Left", "Center", "Right", "Justified"};
+    private String alignments[] = {"Left", "Center", "Right", "Justified"};
+    private JButton alignmentButtons[];
 
     public static void begin() throws Exception {
         UIManager.put("TextPane.font", new Font("Source Code Pro", Font.PLAIN, 20));
@@ -60,13 +62,20 @@ public class GraphicalEditor {
         underlineButton.setText("Underline");
         underlineButton.addActionListener(new CutCopyPasteHandler());
 
-        Icon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/setColor.png"));
-        JButton colorButton = new JButton(icon);
+        Icon setColorIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/setColor.png"));
+        JButton colorButton = new JButton(setColorIcon);
         colorButton.setPreferredSize(new Dimension(30, 30));
         colorButton.addActionListener(new ColorHandler());
 
         textAlignDropDown = new JComboBox(alignments);
-        textAlignDropDown.addItemListener(new TextAlignHandler());
+        alignmentButtons = new JButton[alignments.length];
+
+        for (int i = 0; i < alignments.length; i++) {
+            alignmentButtons[i] = new JButton(new ImageIcon(getClass().getClassLoader().getResource("resources/" + alignments[i] + ".png")));
+            alignmentButtons[i].setActionCommand(alignments[i]);
+            alignmentButtons[i].setPreferredSize(new Dimension(30, 30));
+            alignmentButtons[i].addActionListener(new TextAlignHandler());
+        }
 
         JPanel stylePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         stylePanel.add(fontDropDown);
@@ -75,7 +84,10 @@ public class GraphicalEditor {
         stylePanel.add(italicButton);
         stylePanel.add(underlineButton);
         stylePanel.add(colorButton);
-        stylePanel.add(textAlignDropDown);
+
+        for (int i = 0; i < alignments.length; i++) {
+            stylePanel.add(alignmentButtons[i]);
+        }
 
         JButton cutButton = new JButton(new CutAction());
         cutButton.setText("Cut");
@@ -146,17 +158,15 @@ public class GraphicalEditor {
         }
     }
 
-    private class TextAlignHandler implements ItemListener {
+    private class TextAlignHandler implements ActionListener {
 
-        public void itemStateChanged(ItemEvent event) {
+        public void actionPerformed(ActionEvent event) {
+            String alignment = event.getActionCommand();
+            int choice = Arrays.asList(alignments).indexOf(alignment);
 
-            if ((event.getStateChange() == ItemEvent.SELECTED) && (textAlignDropDown.getSelectedIndex() != 0)) {
-                String alignment = (String) event.getItem();
-                int choice = textAlignDropDown.getSelectedIndex() - 1;
-                textAlignDropDown.setAction(new AlignmentAction(alignment, choice));
-                textAlignDropDown.setSelectedIndex(0);
-                textPane.requestFocusInWindow();
-            }
+            textAlignDropDown.setAction(new AlignmentAction(alignment, choice));
+            textAlignDropDown.setSelectedIndex(0);
+            textPane.requestFocusInWindow();
         }
     }
 
