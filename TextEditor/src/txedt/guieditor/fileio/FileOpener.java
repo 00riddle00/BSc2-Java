@@ -41,11 +41,7 @@ public class FileOpener implements Runnable {
             Optional<String> ext = getFileExtension(this.file.getName());
 
             if (!(ext.equals(Optional.of("edt")))) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        JOptionPane.showMessageDialog(frame, "Try to save and open files with .edt extension");
-                    }
-                });
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame, "Try to save and open files with .edt extension"));
             }
 
             FileInputStream fileIn = new FileInputStream(this.file);
@@ -54,11 +50,7 @@ public class FileOpener implements Runnable {
             this.styledDoc = (DefaultStyledDocument) objectIn.readObject();
             objectIn.close();
         } catch (FileNotFoundException e) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    JOptionPane.showMessageDialog(frame, "File not found");
-                }
-            });
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame, "File not found"));
         } catch (ClassNotFoundException e) {
             System.out.println("[Error]: Cannot read from a file");
             e.printStackTrace();
@@ -69,20 +61,18 @@ public class FileOpener implements Runnable {
             System.exit(1);
         }
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                textPane.setDocument(styledDoc);
-                addFocusPropertyToImages(styledDoc);
-                frame.setTitle("txedt - " + file.getName());
-            }
+        SwingUtilities.invokeLater(() -> {
+            textPane.setDocument(styledDoc);
+            addFocusPropertyToImages(styledDoc);
+            frame.setTitle("txedt - " + file.getName());
         });
     }
 
     private void addFocusPropertyToImages(StyledDocument doc) {
-        ElementIterator iterator = new ElementIterator(doc);
+        ElementIterator it = new ElementIterator(doc);
         Element element;
 
-        while ((element = iterator.next()) != null) {
+        while ((element = it.next()) != null) {
             AttributeSet attributes = element.getAttributes();
 
             if (attributes.containsAttribute(AbstractDocument.ElementNameAttribute, StyleConstants.ComponentElementName)) {

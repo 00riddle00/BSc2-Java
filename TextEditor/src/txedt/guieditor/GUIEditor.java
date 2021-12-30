@@ -145,7 +145,6 @@ public class GUIEditor {
         JPanel toolBarPanel = new JPanel();
         toolBarPanel.setLayout(new BoxLayout(toolBarPanel, BoxLayout.Y_AXIS));
         toolBarPanel.add(stylePanel);
-//        toolBarPanel.add(actionPanel);
 
         frame.add(toolBarPanel, BorderLayout.NORTH);
         frame.add(scrollPane, BorderLayout.CENTER);
@@ -167,12 +166,7 @@ public class GUIEditor {
         saveItem.addActionListener(new OpenSaveFileHandler());
         JMenuItem quitItem = new JMenuItem("Quit");
         quitItem.setMnemonic(KeyEvent.VK_X);
-
-        quitItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        quitItem.addActionListener(e -> System.exit(0));
 
         fileMenu.add(newItem);
         fileMenu.add(openItem);

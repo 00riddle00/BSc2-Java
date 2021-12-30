@@ -34,11 +34,7 @@ public class FileSaver implements Runnable {
             System.exit(1);
         }
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                frame.setTitle("txedt - " + file.getName());
-            }
-        });
+        SwingUtilities.invokeLater(() -> frame.setTitle("txedt - " + file.getName()));
     }
 }
 
