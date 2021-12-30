@@ -1,4 +1,4 @@
-package texedit.main.fragments;
+package texedit.main.cmdeditor.fragments;
 
 import java.io.Serializable;
 

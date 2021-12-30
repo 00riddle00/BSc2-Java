@@ -1,4 +1,4 @@
-package texedit.main.exceptions;
+package texedit.main.cmdeditor.exceptions;
 
 public class NegativeCountException extends TextEditorException {
 

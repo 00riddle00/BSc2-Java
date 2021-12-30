@@ -1,18 +1,17 @@
-package texedit.main;
+package texedit.main.cmdeditor;
 
-import texedit.main.fileio.FileOpener;
-import texedit.main.fileio.FileSaver;
-import texedit.main.colorable.Colorable;
-import texedit.main.cursor.Cursor;
-import texedit.main.document.Document;
-import texedit.main.exceptions.InvalidColorException;
-import texedit.main.exceptions.NegativeCountException;
-import texedit.main.fragments.Fragment;
-import texedit.main.fragments.TextFragment;
-import texedit.main.fragments.Url;
-import texedit.main.gui.GraphicalEditor;
-import texedit.main.shapes.Shape;
-import texedit.main.shapes.ShapeCache;
+import texedit.main.cmdeditor.fileio.FileOpener;
+import texedit.main.cmdeditor.fileio.FileSaver;
+import texedit.main.cmdeditor.colorable.Colorable;
+import texedit.main.cmdeditor.cursor.Cursor;
+import texedit.main.cmdeditor.document.Document;
+import texedit.main.cmdeditor.exceptions.InvalidColorException;
+import texedit.main.cmdeditor.exceptions.NegativeCountException;
+import texedit.main.cmdeditor.fragments.Fragment;
+import texedit.main.cmdeditor.fragments.TextFragment;
+import texedit.main.cmdeditor.fragments.Url;
+import texedit.main.cmdeditor.shapes.Shape;
+import texedit.main.cmdeditor.shapes.ShapeCache;
 
 import java.util.ArrayList;
 
@@ -21,7 +20,7 @@ import java.util.ArrayList;
  * <p>
  * Text Editor - the main class of the project
  */
-public final class TextEditor {
+public final class CmdEditor {
 
     public static final short MAX_CHARS = 400;
 
@@ -69,7 +68,7 @@ public final class TextEditor {
             "------------------------------------" +
                     "------------------------------------------";
 
-    public TextEditor() {
+    public CmdEditor() {
         ShapeCache.loadCache();
         this.cursor = Cursor.getInstance();
     }
@@ -143,7 +142,7 @@ public final class TextEditor {
     }
 
     public void printNotificationMessage() {
-        if (!(TextEditor.strIsEmpty(getNotificationMessage()))) {
+        if (!(CmdEditor.strIsEmpty(getNotificationMessage()))) {
             System.out.println(this.notificationBorder);
             System.out.println(" \uF0F3 " + getNotificationMessage() + " \uF0F3");
             resetNotificationMessage();
@@ -199,7 +198,7 @@ public final class TextEditor {
         Cursor.setPositionInFragment(len);
     }
 
-        public void drawShape(String shapeName) {
+    public void drawShape(String shapeName) {
         String shapeId = "";
 
         switch (shapeName) {
@@ -280,7 +279,7 @@ public final class TextEditor {
     }
 
     public void testRun() {
-//        this.testOpenFile();
+        // this.testOpenFile();
         this.testEditAndSaveFile();
 
         // Needed for a graceful exit
@@ -324,8 +323,8 @@ public final class TextEditor {
         wait(2000);
     }
 
-    public static void main(String[] args) throws Exception {
-        TextEditor cmdEditor = new TextEditor();
+    public static void begin(String[] args) throws Exception {
+        CmdEditor cmdEditor = new CmdEditor();
 
         switch (args.length) {
             case 0:
@@ -339,7 +338,6 @@ public final class TextEditor {
                 System.exit(1);
         }
 
-//        cmdEditor.testRun();
-        GraphicalEditor.begin();
+        cmdEditor.testRun();
     }
 }

@@ -1,4 +1,4 @@
-package texedit.main.shapes;
+package texedit.main.cmdeditor.shapes;
 
 public class Rectangle extends Shape {
 

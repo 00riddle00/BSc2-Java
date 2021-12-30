@@ -1,6 +1,6 @@
-package texedit.main.colorable;
+package texedit.main.cmdeditor.colorable;
 
-import texedit.main.exceptions.InvalidColorException;
+import texedit.main.cmdeditor.exceptions.InvalidColorException;
 
 import java.io.Serializable;
 

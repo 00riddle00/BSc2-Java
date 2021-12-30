@@ -1,6 +1,6 @@
-package texedit.main.cursor;
+package texedit.main.cmdeditor.cursor;
 
-import texedit.main.fragments.Fragment;
+import texedit.main.cmdeditor.fragments.Fragment;
 
 /**
  * Singleton

@@ -1,4 +1,4 @@
-package texedit.main.gui;
+package texedit.main.guieditor;
 
 import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 
@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.Arrays;
-import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -14,7 +13,7 @@ import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
 import javax.swing.text.StyledEditorKit.*;
 
-public class GraphicalEditor {
+public class GUIEditor {
 
     private JFrame frame;
     private JTextPane textPane;
@@ -31,13 +30,13 @@ public class GraphicalEditor {
     private String alignments[] = {"Left", "Center", "Right", "Justified"};
     private JButton alignmentButtons[];
 
-    public static void begin() throws Exception {
+    public static void begin(String[] args) throws Exception {
         UIManager.put("TextPane.font", new Font("Source Code Pro", Font.PLAIN, 20));
         UIManager.setLookAndFeel(new GTKLookAndFeel());
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new GraphicalEditor().createAndShowGui();
+                new GUIEditor().createAndShowGui();
             }
         });
     }
@@ -212,7 +211,6 @@ public class GraphicalEditor {
                 imgButton.setAlignmentY(.9f);
                 imgButton.setAlignmentX(.9f);
                 imgButton.addFocusListener(new ImageFocusHandler());
-                imgButton.setName("PICTURE_ID_" + new Random().nextInt());
                 textPane.insertComponent(imgButton);
                 textPane.requestFocusInWindow();
             }

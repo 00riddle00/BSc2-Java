@@ -1,13 +1,10 @@
-package texedit.main.fragments;
+package texedit.main.cmdeditor.fragments;
 
-import texedit.main.colorable.Colorable;
-import texedit.main.colorable.ColorableImpl;
-import texedit.main.colorable.ColorableWithANSI;
-import texedit.main.cursor.Cursor;
-import texedit.main.exceptions.InvalidColorException;
-import texedit.main.exceptions.TextEditorException;
-
-import java.awt.Color;
+import texedit.main.cmdeditor.colorable.Colorable;
+import texedit.main.cmdeditor.colorable.ColorableImpl;
+import texedit.main.cmdeditor.colorable.ColorableWithANSI;
+import texedit.main.cmdeditor.cursor.Cursor;
+import texedit.main.cmdeditor.exceptions.InvalidColorException;
 
 public class TextFragment extends Fragment implements Colorable, Cloneable {
 

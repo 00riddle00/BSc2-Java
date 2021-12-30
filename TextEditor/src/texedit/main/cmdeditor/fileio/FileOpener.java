@@ -1,6 +1,6 @@
-package texedit.main.fileio;
+package texedit.main.cmdeditor.fileio;
 
-import texedit.main.document.Document;
+import texedit.main.cmdeditor.document.Document;
 
 import java.io.FileInputStream;
 import java.io.IOException;
