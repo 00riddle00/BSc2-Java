@@ -22,7 +22,8 @@ public class GraphicalEditor {
             "SauceCodePro Nerd Font", "SauceCodePro Nerd Font Mono", "Serif", "Source Code Pro", "Symbola"};
     private JComboBox textSizeDropdown;
     private String textSizes[] = {"8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"};
-    private JComboBox textAlignDropDown;
+    private JComboBox workaround;
+    private String workaroundArray[] = {"0", "1", "2", "3", "4", "5"};
     private String alignments[] = {"Left", "Center", "Right", "Justified"};
     private JButton alignmentButtons[];
 
@@ -50,16 +51,25 @@ public class GraphicalEditor {
         textSizeDropdown = new JComboBox(textSizes);
         textSizeDropdown.addItemListener(new TextSizeHandler());
 
-        JButton boldButton = new JButton(new BoldAction());
-        boldButton.setText("Bold");
+        Icon boldIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/Bold.png"));
+        JButton boldButton = new JButton(boldIcon);
+        boldButton.setPreferredSize(new Dimension(30, 30));
+        boldButton.setActionCommand("Bold");
+        boldButton.addActionListener(new boldItalicUnderlineHandler());
         boldButton.addActionListener(new CutCopyPasteHandler());
 
-        JButton italicButton = new JButton(new ItalicAction());
-        italicButton.setText("Italic");
+        Icon italicIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/Italic.png"));
+        JButton italicButton = new JButton(italicIcon);
+        italicButton.setPreferredSize(new Dimension(30, 30));
+        italicButton.setActionCommand("Italic");
+        italicButton.addActionListener(new boldItalicUnderlineHandler());
         italicButton.addActionListener(new CutCopyPasteHandler());
 
-        JButton underlineButton = new JButton(new UnderlineAction());
-        underlineButton.setText("Underline");
+        Icon underlineIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/Underline.png"));
+        JButton underlineButton = new JButton(underlineIcon);
+        underlineButton.setPreferredSize(new Dimension(30, 30));
+        underlineButton.setActionCommand("Underline");
+        underlineButton.addActionListener(new boldItalicUnderlineHandler());
         underlineButton.addActionListener(new CutCopyPasteHandler());
 
         Icon setColorIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/setColor.png"));
@@ -67,7 +77,7 @@ public class GraphicalEditor {
         colorButton.setPreferredSize(new Dimension(30, 30));
         colorButton.addActionListener(new ColorHandler());
 
-        textAlignDropDown = new JComboBox(alignments);
+        workaround = new JComboBox(workaroundArray);
         alignmentButtons = new JButton[alignments.length];
 
         for (int i = 0; i < alignments.length; i++) {
@@ -144,6 +154,27 @@ public class GraphicalEditor {
         }
     }
 
+    private class boldItalicUnderlineHandler implements ActionListener {
+
+        public void actionPerformed(ActionEvent event) {
+            switch (event.getActionCommand()) {
+                case "Bold":
+                    workaround.setAction(new BoldAction());
+                    break;
+                case "Italic":
+                    workaround.setAction(new ItalicAction());
+                    break;
+                case "Underline":
+                    workaround.setAction(new UnderlineAction());
+                    break;
+            }
+
+            workaround.setSelectedIndex(0);
+            textPane.requestFocusInWindow();
+        }
+    }
+
+
     private class ColorHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -164,8 +195,8 @@ public class GraphicalEditor {
             String alignment = event.getActionCommand();
             int choice = Arrays.asList(alignments).indexOf(alignment);
 
-            textAlignDropDown.setAction(new AlignmentAction(alignment, choice));
-            textAlignDropDown.setSelectedIndex(0);
+            workaround.setAction(new AlignmentAction(alignment, choice));
+            workaround.setSelectedIndex(0);
             textPane.requestFocusInWindow();
         }
     }
