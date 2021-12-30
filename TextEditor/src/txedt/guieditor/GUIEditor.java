@@ -1,6 +1,8 @@
 package txedt.guieditor;
 
 import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
+import txedt.guieditor.fileio.FileSaver;
+import txedt.guieditor.fileio.FileOpener;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,8 +15,10 @@ import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
 import javax.swing.text.StyledEditorKit.*;
 
+
 public class GUIEditor {
 
+    private File file;
     private JFrame frame;
     private JTextPane textPane;
     private JComboBox fontDropDown;
@@ -31,7 +35,14 @@ public class GUIEditor {
     private JButton alignmentButtons[];
 
     public static void begin(String[] args) throws Exception {
-        UIManager.put("TextPane.font", new Font("Source Code Pro", Font.PLAIN, 20));
+        UIManager.put("TextPane.font", getNewFont(18));
+        UIManager.put("Menu.font", getNewFont(14));
+        UIManager.put("MenuBar.font", getNewFont(14));
+        UIManager.put("MenuItem.font", getNewFont(14));
+        UIManager.put("Button.font", getNewFont(12));
+        UIManager.put("ColorChooser.font", getNewFont(12));
+        UIManager.put("ComboBox.font", getNewFont(12));
+
         UIManager.setLookAndFeel(new GTKLookAndFeel());
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -41,8 +52,13 @@ public class GUIEditor {
         });
     }
 
+    public static Font getNewFont(int size) {
+        return new Font("Source Code Pro", Font.PLAIN, size);
+    }
+
     private void createAndShowGui() {
-        frame = new JFrame("txedt");
+        frame = new JFrame();
+        frame.setTitle("txedt - Untitled");
         textPane = new JTextPane();
         textPane.setDocument(new DefaultStyledDocument());
         JScrollPane scrollPane = new JScrollPane(textPane);
@@ -129,10 +145,47 @@ public class GUIEditor {
         JPanel toolBarPanel = new JPanel();
         toolBarPanel.setLayout(new BoxLayout(toolBarPanel, BoxLayout.Y_AXIS));
         toolBarPanel.add(stylePanel);
-        toolBarPanel.add(actionPanel);
+//        toolBarPanel.add(actionPanel);
 
         frame.add(toolBarPanel, BorderLayout.NORTH);
         frame.add(scrollPane, BorderLayout.CENTER);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+
+        JMenuItem newItem = new JMenuItem("New");
+        newItem.setMnemonic(KeyEvent.VK_N);
+        newItem.addActionListener(new NewFileHandler());
+        JMenuItem openItem = new JMenuItem("Open...");
+        openItem.setActionCommand("Open");
+        openItem.setMnemonic(KeyEvent.VK_O);
+        openItem.addActionListener(new OpenSaveFileHandler());
+        JMenuItem saveItem = new JMenuItem("Save...");
+        saveItem.setActionCommand("Save");
+        saveItem.setMnemonic(KeyEvent.VK_S);
+        saveItem.addActionListener(new OpenSaveFileHandler());
+        JMenuItem quitItem = new JMenuItem("Quit");
+        quitItem.setMnemonic(KeyEvent.VK_X);
+
+        quitItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        newItem.setIconTextGap(200);
+        openItem.setIconTextGap(80);
+        saveItem.setIconTextGap(80);
+        quitItem.setIconTextGap(80);
+
+
+        fileMenu.add(newItem);
+        fileMenu.add(openItem);
+        fileMenu.add(saveItem);
+        fileMenu.add(quitItem);
+        menuBar.add(fileMenu);
+        frame.setJMenuBar(menuBar);
 
         frame.setSize(800, 600);
         frame.setLocation(200, 200);
@@ -250,6 +303,51 @@ public class GUIEditor {
             workaround.setAction(new AlignmentAction(alignment, choice));
             workaround.setSelectedIndex(0);
             textPane.requestFocusInWindow();
+        }
+    }
+
+    private class NewFileHandler implements ActionListener {
+
+        public void actionPerformed(ActionEvent event) {
+            AttributeSet currentAttributes = textPane.getCharacterAttributes();
+            SimpleAttributeSet simpleAttributes = new SimpleAttributeSet(currentAttributes);
+            simpleAttributes.removeAttributes(currentAttributes);
+            textPane.setCharacterAttributes(simpleAttributes, true);
+
+            textPane.setDocument(new DefaultStyledDocument());
+            file = null;
+            frame.setTitle("txedt - Untitled");
+        }
+
+    }
+
+    private class OpenSaveFileHandler implements ActionListener {
+
+        public void actionPerformed(ActionEvent event) {
+            file = chooseFile();
+            if (file == null) {
+                return;
+            }
+
+            switch (event.getActionCommand()) {
+                case "Open":
+                    FileOpener fileOpener = new FileOpener(frame, textPane, file);
+                    new Thread(fileOpener).start();
+                    break;
+                case "Save":
+                    FileSaver fileSaver = new FileSaver(frame, textPane, file);
+                    new Thread(fileSaver).start();
+            }
+        }
+
+        private File chooseFile() {
+            JFileChooser chooser = new JFileChooser();
+
+            if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                return chooser.getSelectedFile();
+            } else {
+                return null;
+            }
         }
     }
 
