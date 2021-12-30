@@ -6,7 +6,6 @@ public class Square extends Shape {
         type = "Square";
     }
 
-    @Override
     public void draw() {
         System.out.println("\n+------+" +
                            "\n|      |" +

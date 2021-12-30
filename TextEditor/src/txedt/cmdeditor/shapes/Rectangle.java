@@ -6,7 +6,6 @@ public class Rectangle extends Shape {
         type = "Rectangle";
     }
 
-    @Override
     public void draw() {
         System.out.println("\n+-------------+" +
                            "\n|             |" +

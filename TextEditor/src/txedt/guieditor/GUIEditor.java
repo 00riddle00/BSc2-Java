@@ -174,12 +174,6 @@ public class GUIEditor {
             }
         });
 
-        newItem.setIconTextGap(200);
-        openItem.setIconTextGap(80);
-        saveItem.setIconTextGap(80);
-        quitItem.setIconTextGap(80);
-
-
         fileMenu.add(newItem);
         fileMenu.add(openItem);
         fileMenu.add(saveItem);

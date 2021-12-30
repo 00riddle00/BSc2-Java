@@ -6,7 +6,6 @@ public class Circle extends Shape {
         type = "Circle";
     }
 
-    @Override
     public void draw() {
         System.out.println("\n  ******  " +
                            "\n****  ****" +

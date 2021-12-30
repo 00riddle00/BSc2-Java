@@ -14,7 +14,6 @@ public class FileSaver implements Runnable {
         this.document = document;
     }
 
-    @Override
     public void run() {
         try {
             FileOutputStream fileOut = new FileOutputStream("/home/riddle/" + this.document.getTitle() + ".edt");

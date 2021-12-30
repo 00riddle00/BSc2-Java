@@ -19,7 +19,6 @@ public class FileOpener implements Runnable {
         return openedDocument;
     }
 
-    @Override
     public void run() {
         try {
             FileInputStream fileIn = new FileInputStream(this.filepath);
