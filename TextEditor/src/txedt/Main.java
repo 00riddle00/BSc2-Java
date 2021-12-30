@@ -1,5 +1,6 @@
 package txedt;
 
+import txedt.cmdeditor.CmdEditor;
 import txedt.guieditor.GUIEditor;
 
 public class Main {
