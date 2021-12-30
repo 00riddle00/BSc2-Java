@@ -4,8 +4,12 @@ import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.Arrays;
+import java.util.Random;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
 import javax.swing.text.StyledEditorKit.*;
@@ -77,7 +81,11 @@ public class GraphicalEditor {
         colorButton.setPreferredSize(new Dimension(30, 30));
         colorButton.addActionListener(new ColorHandler());
 
-        workaround = new JComboBox(workaroundArray);
+        Icon addImageIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/addImage.png"));
+        JButton imageButton = new JButton(addImageIcon);
+        imageButton.setPreferredSize(new Dimension(30, 30));
+        imageButton.addActionListener(new ImageHandler());
+
         alignmentButtons = new JButton[alignments.length];
 
         for (int i = 0; i < alignments.length; i++) {
@@ -87,6 +95,8 @@ public class GraphicalEditor {
             alignmentButtons[i].addActionListener(new TextAlignHandler());
         }
 
+        workaround = new JComboBox(workaroundArray);
+
         JPanel stylePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         stylePanel.add(fontDropDown);
         stylePanel.add(textSizeDropdown);
@@ -94,6 +104,7 @@ public class GraphicalEditor {
         stylePanel.add(italicButton);
         stylePanel.add(underlineButton);
         stylePanel.add(colorButton);
+        stylePanel.add(imageButton);
 
         for (int i = 0; i < alignments.length; i++) {
             stylePanel.add(alignmentButtons[i]);
@@ -174,7 +185,6 @@ public class GraphicalEditor {
         }
     }
 
-
     private class ColorHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -186,6 +196,50 @@ public class GraphicalEditor {
                 textPane.setCharacterAttributes(attr, false);
             }
             textPane.requestFocusInWindow();
+        }
+    }
+
+    private class ImageHandler implements ActionListener {
+
+        public void actionPerformed(ActionEvent event) {
+            File image = choosePictureFile();
+
+            if (image != null) {
+                ImageIcon icon = new ImageIcon(image.toString());
+                JButton imgButton = new JButton(icon);
+                imgButton.setBorder(new LineBorder(Color.WHITE));
+                imgButton.setMargin(new Insets(0, 0, 0, 0));
+                imgButton.setAlignmentY(.9f);
+                imgButton.setAlignmentX(.9f);
+                imgButton.addFocusListener(new ImageFocusHandler());
+                imgButton.setName("PICTURE_ID_" + new Random().nextInt());
+                textPane.insertComponent(imgButton);
+                textPane.requestFocusInWindow();
+            }
+        }
+
+        private File choosePictureFile() {
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG, JPG & GIF Images", "png", "jpg", "gif");
+            chooser.setFileFilter(filter);
+
+            if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                return chooser.getSelectedFile();
+            } else {
+                return null;
+            }
+        }
+    }
+
+    private class ImageFocusHandler implements FocusListener {
+
+        public void focusGained(FocusEvent event) {
+            JButton button = (JButton) event.getComponent();
+            button.setBorder(new LineBorder(Color.GRAY));
+        }
+
+        public void focusLost(FocusEvent event) {
+            ((JButton) event.getComponent()).setBorder(new LineBorder(Color.WHITE));
         }
     }
 
