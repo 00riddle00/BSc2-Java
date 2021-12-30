@@ -14,13 +14,15 @@ public class GraphicalEditor {
     private JFrame frame;
     private JTextPane textPane;
     private JComboBox fontDropDown;
-    private JComboBox textSizeDropdown;
     private String fonts[] = {"DejaVu Sans", "DejaVu Sans Mono", "DejaVu Serif", "DejaVuSansMono Nerd Font",
             "DejaVuSansMono Nerd Font Mono", "DroidSansMono Nerd Font", "DroidSansMono Nerd Font Mono", "Inconsolata Nerd Font",
             "Inconsolata Nerd Font Mono", "Liberation Mono", "Liberation Sans", "Liberation Serif", "Monospaced", "Noto Color Emoji",
             "Noto Sans", "Noto Serif", "Palemonas", "RobotoMono Nerd Font", "RobotoMono Nerd Font Mono", "SansSerif",
             "SauceCodePro Nerd Font", "SauceCodePro Nerd Font Mono", "Serif", "Source Code Pro", "Symbola"};
+    private JComboBox textSizeDropdown;
     private String textSizes[] = {"8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"};
+    private JComboBox textAlignDropDown;
+    private String alignments[] = {"Align Text", "Left", "Center", "Right", "Justified"};
 
     public static void begin() throws Exception {
         UIManager.put("TextPane.font", new Font("Source Code Pro", Font.PLAIN, 20));
@@ -40,7 +42,6 @@ public class GraphicalEditor {
         JScrollPane scrollPane = new JScrollPane(textPane);
 
         fontDropDown = new JComboBox(fonts);
-        fontDropDown.setEditable(false);
         fontDropDown.addItemListener(new FontHandler());
         fontDropDown.setSelectedItem("Source Code Pro");
 
@@ -64,6 +65,9 @@ public class GraphicalEditor {
         colorButton.setPreferredSize(new Dimension(30, 30));
         colorButton.addActionListener(new ColorHandler());
 
+        textAlignDropDown = new JComboBox(alignments);
+        textAlignDropDown.addItemListener(new TextAlignHandler());
+
         JPanel stylePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         stylePanel.add(fontDropDown);
         stylePanel.add(textSizeDropdown);
@@ -71,6 +75,7 @@ public class GraphicalEditor {
         stylePanel.add(italicButton);
         stylePanel.add(underlineButton);
         stylePanel.add(colorButton);
+        stylePanel.add(textAlignDropDown);
 
         JButton cutButton = new JButton(new CutAction());
         cutButton.setText("Cut");
@@ -138,6 +143,20 @@ public class GraphicalEditor {
                 textPane.setCharacterAttributes(attr, false);
             }
             textPane.requestFocusInWindow();
+        }
+    }
+
+    private class TextAlignHandler implements ItemListener {
+
+        public void itemStateChanged(ItemEvent event) {
+
+            if ((event.getStateChange() == ItemEvent.SELECTED) && (textAlignDropDown.getSelectedIndex() != 0)) {
+                String alignment = (String) event.getItem();
+                int choice = textAlignDropDown.getSelectedIndex() - 1;
+                textAlignDropDown.setAction(new AlignmentAction(alignment, choice));
+                textAlignDropDown.setSelectedIndex(0);
+                textPane.requestFocusInWindow();
+            }
         }
     }
 
