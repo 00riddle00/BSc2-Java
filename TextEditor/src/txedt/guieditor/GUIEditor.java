@@ -121,8 +121,8 @@ public class GUIEditor {
         stylePanel.add(colorButton);
         stylePanel.add(imageButton);
 
-        for (int i = 0; i < alignments.length; i++) {
-            stylePanel.add(alignmentButtons[i]);
+        for (JButton button : alignmentButtons) {
+            stylePanel.add(button);
         }
 
         JButton cutButton = new JButton(new CutAction());
