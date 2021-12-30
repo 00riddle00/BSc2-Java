@@ -21,9 +21,7 @@ public class Document implements Serializable {
         this.createdDate = new Date();
         this.lastModifiedDate = this.createdDate;
         this.fragments = new ArrayList<Fragment>();
-        // TODO change depending on fragment sizes
         this.charCount = 0;
-        // TODO change depending on fragment sizes
         this.lineCount = 1;
     }
 

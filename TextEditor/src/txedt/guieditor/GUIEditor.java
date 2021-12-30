@@ -11,11 +11,16 @@ import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
 import javax.swing.text.StyledEditorKit.*;
 
-
+/**
+ * @author Tomas Giedraitis
+ * <p>
+ * GUIEditor - text editor made with Java Swing GUI
+ */
 public class GUIEditor {
 
     private File file;

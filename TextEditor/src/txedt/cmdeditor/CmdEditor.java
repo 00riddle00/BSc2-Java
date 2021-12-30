@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * @author Tomas Giedraitis
  * <p>
- * Text Editor - the main class of the project
+ * CmdEditor - command line text editor
  */
 public final class CmdEditor {
 
@@ -47,7 +47,6 @@ public final class CmdEditor {
         return count;
     }
 
-    // TODO move to utilities
     private static boolean strIsEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
@@ -175,7 +174,6 @@ public final class CmdEditor {
         this.updateCharCount(len);
         this.updateLineCount(newlineCount);
 
-        // TODO move to Fragment's constructor?
         Cursor.fragment = fragment;
         Cursor.setPositionInFragment(len);
     }
@@ -193,7 +191,6 @@ public final class CmdEditor {
         this.fragments.add(fragment);
         this.updateCharCount(len);
 
-        // TODO move to Fragment's constructor?
         Cursor.fragment = fragment;
         Cursor.setPositionInFragment(len);
     }
@@ -231,7 +228,6 @@ public final class CmdEditor {
             this.updateCharCount(newFragment.getLength());
             this.updateLineCount(newlineCount);
 
-            // TODO move to Fragment's constructor?
             Cursor.fragment = newFragment;
             Cursor.setPositionInFragment(newFragment.getLength());
 

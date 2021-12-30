@@ -58,7 +58,6 @@ public class TextFragment extends Fragment implements Colorable, Cloneable {
             Cursor.print();
             print(Cursor.getPositionInFragment(), length);
         } else {
-            // TODO change to calling this.print(from, to);
             System.out.print(this.text);
         }
     }
@@ -91,7 +90,6 @@ public class TextFragment extends Fragment implements Colorable, Cloneable {
         }
     }
 
-    // TODO join rules depending of object types
     public void join(Fragment f) {
         this.text += f.text;
         this.length += f.length;
