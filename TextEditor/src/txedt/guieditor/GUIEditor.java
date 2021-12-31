@@ -1,6 +1,5 @@
 package txedt.guieditor;
 
-import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 import txedt.guieditor.fileio.FileSaver;
 import txedt.guieditor.fileio.FileOpener;
 
@@ -48,7 +47,7 @@ public class GUIEditor {
         UIManager.put("ColorChooser.font", getNewFont(12));
         UIManager.put("ComboBox.font", getNewFont(12));
 
-        UIManager.setLookAndFeel(new GTKLookAndFeel());
+        UIManager.setLookAndFeel(new NimbusLookAndFeel());
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
