@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Optional;
 
+/**
+ * Opens a file as a styled document
+ * Works in a separate thread.
+ */
 public class FileOpener implements Runnable {
 
     private JFrame frame;
@@ -30,12 +34,37 @@ public class FileOpener implements Runnable {
     private File file;
     private StyledDocument styledDoc;
 
+    /**
+     * @param frame    the only frame the GUI is displayed in (containing a menu bar, a toolbar, and a text pane)
+     * @param textPane the text pane where the document is contained in and displayed in
+     * @param file     the file object indicating the file to be opened
+     */
     public FileOpener(JFrame frame, JTextPane textPane, File file) {
         this.frame = frame;
         this.textPane = textPane;
         this.file = file;
     }
 
+    /**
+     * Opens the file specified as a styled document object.
+     * <p>
+     * Checks for the file extension, and if it is not .edt, shows a message with the
+     * recommendation no using files with this extension (in the later version this will
+     * be a strict requirement). Throws correspoding exceptions, if there are problems
+     * reading from a file, and shows the error message in GUI.
+     * <p>
+     * Finally, after the file is read, the text pane is set to the new document object,
+     * the frame's title is edited to include the opened filename, and for all the images
+     * in the document the focus handler is added.
+     * <p>
+     * Showing GUI messages, changing frame's title and adding focus handler to images is
+     * done from the Swing's invokeLater() method, which passes the code for the Event
+     * Dispatch Thread to run.
+     *
+     * @throws FileNotFoundException  if the file specified does not exist
+     * @throws ClassNotFoundException if there are problems reading from a file via object input stream
+     * @throws IOException            if other problems occur while reading a file
+     */
     public void run() {
         try {
             Optional<String> ext = getFileExtension(this.file.getName());
@@ -68,6 +97,10 @@ public class FileOpener implements Runnable {
         });
     }
 
+    /**
+     * Uses an iterator to iterate over all the images in the newly
+     * opened document and adds a focus handler to each image.
+     */
     private void addFocusPropertyToImages(StyledDocument doc) {
         ElementIterator it = new ElementIterator(doc);
         Element element;
@@ -92,6 +125,10 @@ public class FileOpener implements Runnable {
         }
     }
 
+    /**
+     * Gets the extension of a file, by using and functional programming
+     * elements - Optional class with filter and map actions.
+     */
     private Optional<String> getFileExtension(String filename) {
         return Optional.ofNullable(filename)
                 .filter(f -> f.contains("."))

@@ -3,7 +3,7 @@ package txedt.cmdeditor.cursor;
 import txedt.cmdeditor.fragments.Fragment;
 
 /**
- * Singleton
+ * Cursor - a singleton object
  */
 public final class Cursor {
 
