@@ -18,7 +18,10 @@ import java.util.ArrayList;
 /**
  * @author Tomas Giedraitis
  * <p>
- * CmdEditor - command line text editor
+ * CMDEditor - command line text editor
+ * (run in terminal emulator)
+ *
+ * @version	1.0
  */
 public final class CmdEditor {
 
@@ -51,6 +54,24 @@ public final class CmdEditor {
         return str == null || str.trim().isEmpty();
     }
 
+    public static void begin(String[] args) throws InterruptedException {
+        CmdEditor cmdEditor = new CmdEditor();
+
+        switch (args.length) {
+            case 0:
+                cmdEditor.newDocument();
+                break;
+            case 1:
+                cmdEditor.openDocument(args[0]);
+                break;
+            default:
+                System.out.println("[Error]: Too many arguments");
+                System.exit(1);
+        }
+
+        cmdEditor.testRun();
+    }
+
     private Document document;
     private String title;
     private int charCount;
@@ -70,6 +91,51 @@ public final class CmdEditor {
     public CmdEditor() {
         ShapeCache.loadCache();
         this.cursor = Cursor.getInstance();
+    }
+
+    public void testRun() {
+        // this.testOpenFile();
+        this.testEditAndSaveFile();
+
+        // Needed for a graceful exit
+        System.out.println();
+    }
+
+    public void testEditAndSaveFile() {
+        redraw();
+        wait(1000);
+        drawShape("Rectangle");
+        wait(1000);
+        addText("Test\n");
+        redraw();
+        wait(1000);
+        duplicateSelection();
+        redraw();
+        wait(1000);
+        setSelectionColor("BLUE");
+        redraw();
+        wait(1000);
+        addUrl("Hyperlink", "https://www.google.com");
+        redraw();
+        wait(1000);
+        // By selection we mean the fragment which has the cursor in it
+        setSelectionColor("RED");
+        redraw();
+        wait(1000);
+        saveDocument();
+        wait(1000);
+        redraw();
+        wait(1000);
+        redraw();
+        wait(1000);
+    }
+
+    public void testOpenFile() {
+        redraw();
+        wait(2000);
+
+        redraw();
+        wait(2000);
     }
 
     public void loadDocument() {
@@ -272,68 +338,5 @@ public final class CmdEditor {
         } else {
             Cursor.print();
         }
-    }
-
-    public void testRun() {
-        // this.testOpenFile();
-        this.testEditAndSaveFile();
-
-        // Needed for a graceful exit
-        System.out.println();
-    }
-
-    public void testEditAndSaveFile() {
-        redraw();
-        wait(1000);
-        drawShape("Rectangle");
-        wait(1000);
-        addText("Test\n");
-        redraw();
-        wait(1000);
-        duplicateSelection();
-        redraw();
-        wait(1000);
-        setSelectionColor("BLUE");
-        redraw();
-        wait(1000);
-        addUrl("Hyperlink", "https://www.google.com");
-        redraw();
-        wait(1000);
-        // By selection we mean the fragment which has the cursor in it
-        setSelectionColor("RED");
-        redraw();
-        wait(1000);
-        saveDocument();
-        wait(1000);
-        redraw();
-        wait(1000);
-        redraw();
-        wait(1000);
-    }
-
-    public void testOpenFile() {
-        redraw();
-        wait(2000);
-
-        redraw();
-        wait(2000);
-    }
-
-    public static void begin(String[] args) throws Exception {
-        CmdEditor cmdEditor = new CmdEditor();
-
-        switch (args.length) {
-            case 0:
-                cmdEditor.newDocument();
-                break;
-            case 1:
-                cmdEditor.openDocument(args[0]);
-                break;
-            default:
-                System.out.println("[Error]: Too many arguments");
-                System.exit(1);
-        }
-
-        cmdEditor.testRun();
     }
 }

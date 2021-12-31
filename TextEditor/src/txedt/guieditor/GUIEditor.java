@@ -6,6 +6,7 @@ import txedt.guieditor.fileio.FileOpener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -19,6 +20,8 @@ import javax.swing.text.StyledEditorKit.*;
  * @author Tomas Giedraitis
  * <p>
  * GUIEditor - text editor made with Java Swing GUI
+ *
+ *  @version 1.0
  */
 public class GUIEditor {
 
@@ -38,7 +41,7 @@ public class GUIEditor {
     private String alignments[] = {"Left", "Center", "Right", "Justified"};
     private JButton alignmentButtons[];
 
-    public static void begin(String[] args) throws Exception {
+    public static void begin(String[] args) throws UnsupportedLookAndFeelException {
         UIManager.put("TextPane.font", getNewFont(18));
         UIManager.put("Menu.font", getNewFont(14));
         UIManager.put("MenuBar.font", getNewFont(14));

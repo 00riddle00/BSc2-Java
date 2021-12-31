@@ -3,6 +3,8 @@ package txedt;
 import txedt.cmdeditor.CmdEditor;
 import txedt.guieditor.GUIEditor;
 
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  * The entry point of the program
  */
@@ -24,9 +26,12 @@ public class Main {
      *             the name of the file to be opened with the editor.
      *             If there are more arguments, the program will produce
      *             an error.
+     *
+     * @throws InterruptedException can occur the Thread which opens or saves to a file is interrupted
+     * @throws UnsupportedLookAndFeelException can occur when a chosen look and feel is not supported by the system
      */
-    public static void main(String[] args) throws Exception {
-        //CmdEditor.begin(args);
+    public static void main(String[] args) throws InterruptedException, UnsupportedLookAndFeelException {
+//        CmdEditor.begin(args);
         GUIEditor.begin(args);
     }
 }
