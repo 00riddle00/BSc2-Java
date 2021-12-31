@@ -20,9 +20,7 @@ import java.util.ArrayList;
  * <p>
  * CMDEditor - command line text editor
  * (run in terminal emulator)
- *
- * @version	0.5
- * In this version the CMDEditor so far works only by performing a simulation
+ * @version 0.5 In this version the CMDEditor so far works only by performing a simulation
  * of text editing. This is done by performing a test run using method calls
  * (and no user input). The user has the ability to add or reorder the method
  * calls in the code directly for the test run.
@@ -69,7 +67,6 @@ public final class CMDEditor {
      *             Either no arguments or a single argument - the name of the file to
      *             be opened with the editor. If there are more arguments, the method
      *             will produce an error.
-     *
      * @throws InterruptedException can occur the Thread which opens or saves to a file is interrupted
      */
     public static void begin(String[] args) throws InterruptedException {
@@ -112,7 +109,7 @@ public final class CMDEditor {
     }
 
     public void testRun() {
-        // this.testOpenFile();
+        //this.testOpenFile();
         this.testEditAndSaveFile();
 
         // Needed for a graceful exit
@@ -136,7 +133,8 @@ public final class CMDEditor {
         addUrl("Hyperlink", "https://www.google.com");
         redraw();
         wait(1000);
-        // By selection we mean the fragment which has the cursor in it
+        // Selection means the current fragment -
+        // the one which has the cursor on it
         setSelectionColor("RED");
         redraw();
         wait(1000);
@@ -180,10 +178,15 @@ public final class CMDEditor {
         this.setNotificationMessage("The document '" + this.document.getTitle() + "' is opened");
     }
 
+    /**
+     * Creates another thread and saves the current * document to a file
+     * <p>
+     * In the newer version, the notification message will be
+     * generated about the successful write to a file
+     */
     private void saveDocument() {
         FileSaver fileSaver = new FileSaver(this.document);
         new Thread(fileSaver).start();
-        //this.setNotificationMessage("The document '" + this.document.getTitle() + "' was succesfully written to a file");
     }
 
     public String getTitle() {

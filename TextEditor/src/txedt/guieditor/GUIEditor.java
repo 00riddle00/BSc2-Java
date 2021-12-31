@@ -19,8 +19,7 @@ import javax.swing.text.StyledEditorKit.*;
  * @author Tomas Giedraitis
  * <p>
  * GUIEditor - text editor made with Java Swing GUI
- *
- *  @version 1.0
+ * @version 1.0
  */
 public class GUIEditor {
 
@@ -42,7 +41,7 @@ public class GUIEditor {
 
     /**
      * Firstly, sets the fonts, look and feel via UIManager.
-     *
+     * <p>
      * Then, creates a GUIEditor object and calls its method createAndShowGui().
      * This is done inside SwingUtitlities.invokeLater method so that this code
      * would be handled by the Swing's Event Dispatch Thread.
@@ -51,9 +50,7 @@ public class GUIEditor {
      *             Either no arguments or a single argument - the name of the file to
      *             be opened with the editor. If there are more arguments, the method
      *             will produce an error.
-     *
      * @throws UnsupportedLookAndFeelException can occur when a chosen look and feel is not supported by the system
-     *
      * @see UIManager
      */
     public static void begin(String[] args) throws UnsupportedLookAndFeelException {
@@ -70,6 +67,10 @@ public class GUIEditor {
         SwingUtilities.invokeLater(() -> new GUIEditor().createAndShowGui());
     }
 
+    /**
+     * @param size - the size of the Font
+     * @return the newly created Font object with the specified size
+     */
     public static Font getNewFont(int size) {
         return new Font("Source Code Pro", Font.PLAIN, size);
     }

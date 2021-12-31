@@ -10,7 +10,6 @@ public class TextFragment extends Fragment implements Colorable, Cloneable {
 
     protected boolean isUnderlined;
 
-    // Colorable field
     private ColorableImpl clr = new ColorableImpl();
 
     public TextFragment(String text, int len, int startPos) {
@@ -21,7 +20,11 @@ public class TextFragment extends Fragment implements Colorable, Cloneable {
         return this.text;
     }
 
-    // Delegate Colorable interface calls to clr field
+    /**
+     * Delegates Colorable interface calls to clr field
+     *
+     * @return color in the form of a terminal emulator escape sequence
+     */
     public String getColor() {
         return clr.getColor();
     }

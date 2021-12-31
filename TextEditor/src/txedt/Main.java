@@ -14,10 +14,10 @@ public class Main {
      * From the main method either CMDEditor or GUIEditor can be run.
      * This method contains only one line of code which call any of the
      * two text editors.
-     *
+     * <p>
      * Call either `CMDEditor.begin(args)` or `GUIEditor.begin(args)`
      * from this method.
-     *
+     * <p>
      * For additional requirements to run GUIEditor on linux see
      * <a href="{@docRoot}/../Readme.md">Readme.md</a>
      *
@@ -26,8 +26,7 @@ public class Main {
      *             the name of the file to be opened with the editor.
      *             If there are more arguments, the program will produce
      *             an error.
-     *
-     * @throws InterruptedException can occur the Thread which opens or saves to a file is interrupted
+     * @throws InterruptedException            can occur the Thread which opens or saves to a file is interrupted
      * @throws UnsupportedLookAndFeelException can occur when a chosen look and feel is not supported by the system
      */
     public static void main(String[] args) throws InterruptedException, UnsupportedLookAndFeelException {
