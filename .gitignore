@@ -1,18 +1,23 @@
-# Eclipse
+# IDEs
+
+## Eclipse
 
 bin/
 .classpath
 .project
 .settings/
 
-# NetBeans
+## NetBeans
 
 build.xml
 build/
 manifest.mf
 nbproject/
 
-# IntelliJ
+## JetBrains
 .idea/
 out/
 *.iml
+
+# Javadoc documentation
+docs/
