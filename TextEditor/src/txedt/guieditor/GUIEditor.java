@@ -6,12 +6,11 @@ import txedt.guieditor.fileio.FileOpener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
 import javax.swing.text.StyledEditorKit.*;
@@ -41,6 +40,22 @@ public class GUIEditor {
     private String alignments[] = {"Left", "Center", "Right", "Justified"};
     private JButton alignmentButtons[];
 
+    /**
+     * Firstly, sets the fonts, look and feel via UIManager.
+     *
+     * Then, creates a GUIEditor object and calls its method createAndShowGui().
+     * This is done inside SwingUtitlities.invokeLater method so that this code
+     * would be handled by the Swing's Event Dispatch Thread.
+     *
+     * @param args Passed from the main entry point of the program (the main method).
+     *             Either no arguments or a single argument - the name of the file to
+     *             be opened with the editor. If there are more arguments, the method
+     *             will produce an error.
+     *
+     * @throws UnsupportedLookAndFeelException can occur when a chosen look and feel is not supported by the system
+     *
+     * @see UIManager
+     */
     public static void begin(String[] args) throws UnsupportedLookAndFeelException {
         UIManager.put("TextPane.font", getNewFont(18));
         UIManager.put("Menu.font", getNewFont(14));
@@ -50,13 +65,9 @@ public class GUIEditor {
         UIManager.put("ColorChooser.font", getNewFont(12));
         UIManager.put("ComboBox.font", getNewFont(12));
 
-        UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        UIManager.setLookAndFeel(new MetalLookAndFeel());
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new GUIEditor().createAndShowGui();
-            }
-        });
+        SwingUtilities.invokeLater(() -> new GUIEditor().createAndShowGui());
     }
 
     public static Font getNewFont(int size) {

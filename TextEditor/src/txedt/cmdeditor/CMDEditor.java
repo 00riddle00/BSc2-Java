@@ -21,9 +21,13 @@ import java.util.ArrayList;
  * CMDEditor - command line text editor
  * (run in terminal emulator)
  *
- * @version	1.0
+ * @version	0.5
+ * In this version the CMDEditor so far works only by performing a simulation
+ * of text editing. This is done by performing a test run using method calls
+ * (and no user input). The user has the ability to add or reorder the method
+ * calls in the code directly for the test run.
  */
-public final class CmdEditor {
+public final class CMDEditor {
 
     public static final short MAX_CHARS = 400;
 
@@ -54,8 +58,22 @@ public final class CmdEditor {
         return str == null || str.trim().isEmpty();
     }
 
+    /**
+     * Creates the CMDEditor object.
+     * Then, depending on the command line arguments passed to it, either creates a
+     * new document or opens an existing one.
+     * And finally, calls the CMDEditor's testRun() method to perform a test run -
+     * a simulation of text editing, done via method calls.
+     *
+     * @param args Passed from the main entry point of the program (the main method).
+     *             Either no arguments or a single argument - the name of the file to
+     *             be opened with the editor. If there are more arguments, the method
+     *             will produce an error.
+     *
+     * @throws InterruptedException can occur the Thread which opens or saves to a file is interrupted
+     */
     public static void begin(String[] args) throws InterruptedException {
-        CmdEditor cmdEditor = new CmdEditor();
+        CMDEditor cmdEditor = new CMDEditor();
 
         switch (args.length) {
             case 0:
@@ -88,7 +106,7 @@ public final class CmdEditor {
             "------------------------------------" +
                     "------------------------------------------";
 
-    public CmdEditor() {
+    public CMDEditor() {
         ShapeCache.loadCache();
         this.cursor = Cursor.getInstance();
     }
@@ -207,7 +225,7 @@ public final class CmdEditor {
     }
 
     public void printNotificationMessage() {
-        if (!(CmdEditor.strIsEmpty(getNotificationMessage()))) {
+        if (!(CMDEditor.strIsEmpty(getNotificationMessage()))) {
             System.out.println(this.notificationBorder);
             System.out.println(" \uF0F3 " + getNotificationMessage() + " \uF0F3");
             resetNotificationMessage();

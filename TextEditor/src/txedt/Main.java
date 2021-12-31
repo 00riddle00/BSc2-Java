@@ -1,6 +1,6 @@
 package txedt;
 
-import txedt.cmdeditor.CmdEditor;
+import txedt.cmdeditor.CMDEditor;
 import txedt.guieditor.GUIEditor;
 
 import javax.swing.UnsupportedLookAndFeelException;
@@ -15,7 +15,7 @@ public class Main {
      * This method contains only one line of code which call any of the
      * two text editors.
      *
-     * Call either `CmdEditor.begin(args)` or `GUIEditor.begin(args)`
+     * Call either `CMDEditor.begin(args)` or `GUIEditor.begin(args)`
      * from this method.
      *
      * For additional requirements to run GUIEditor on linux see
@@ -31,7 +31,7 @@ public class Main {
      * @throws UnsupportedLookAndFeelException can occur when a chosen look and feel is not supported by the system
      */
     public static void main(String[] args) throws InterruptedException, UnsupportedLookAndFeelException {
-//        CmdEditor.begin(args);
+        //CMDEditor.begin(args);
         GUIEditor.begin(args);
     }
 }
