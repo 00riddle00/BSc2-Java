@@ -75,13 +75,23 @@ public class GUIEditor {
         return new Font("Source Code Pro", Font.PLAIN, size);
     }
 
+    /**
+     * Creates all the GUI elements, binds listeners to them, and after that
+     * makes the GUI visible - the editing thus can be performed from that moment.
+     */
     private void createAndShowGui() {
+        // Create three main components:
+        // frame - a container to hold the content
+        // text pane - where the document will be placed and edited
+        // scroll pane - which encapsulates the text pane and adds the
+        //      vertical and horizontal scrolling functionality to it
         frame = new JFrame();
         frame.setTitle("txedt - Untitled");
         textPane = new JTextPane();
         textPane.setDocument(new DefaultStyledDocument());
         JScrollPane scrollPane = new JScrollPane(textPane);
 
+        // Create dropdowns for selecting font and text size
         fontDropDown = new JComboBox(fonts);
         fontDropDown.addItemListener(new FontHandler());
         fontDropDown.setSelectedItem("Source Code Pro");
@@ -89,6 +99,8 @@ public class GUIEditor {
         textSizeDropdown = new JComboBox(textSizes);
         textSizeDropdown.addItemListener(new TextSizeHandler());
 
+        // Create buttons with representing icons for changing style,
+        // color of the selected text, and for adding an image
         Icon boldIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/Bold.png"));
         JButton boldButton = new JButton(boldIcon);
         boldButton.setPreferredSize(new Dimension(30, 30));
@@ -131,6 +143,8 @@ public class GUIEditor {
 
         workaround = new JComboBox(workaroundArray);
 
+        // Create a style panel with the flow layout and
+        // add the created dropdowns and buttons to it
         JPanel stylePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         stylePanel.add(fontDropDown);
         stylePanel.add(textSizeDropdown);
@@ -144,18 +158,22 @@ public class GUIEditor {
             stylePanel.add(button);
         }
 
+        // Create a toolbar with the box layout which
+        // encapsulates the style panel, and add it to the frame
         JPanel toolBarPanel = new JPanel();
         toolBarPanel.setLayout(new BoxLayout(toolBarPanel, BoxLayout.Y_AXIS));
         toolBarPanel.add(stylePanel);
 
         frame.add(toolBarPanel, BorderLayout.NORTH);
+
+        // Add the scroll pane (which has a text pane in it) to the frame
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        JMenuBar menuBar = new JMenuBar();
-
+        // Create 'File' menu
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
 
+        // Create menu items and add them to the 'File' menu
         JMenuItem newItem = new JMenuItem("New");
         newItem.setMnemonic(KeyEvent.VK_N);
         newItem.addActionListener(new NewFileHandler());
@@ -176,9 +194,11 @@ public class GUIEditor {
         fileMenu.add(saveItem);
         fileMenu.add(quitItem);
 
+        // Create 'Edit' menu
         JMenu editMenu = new JMenu("Edit");
         editMenu.setMnemonic(KeyEvent.VK_E);
 
+        // Create menu items and add them to the 'Edit' menu
         JMenuItem cutItem = new JMenuItem("Cut");
         cutItem.setMnemonic(KeyEvent.VK_X);
         cutItem.setAction(new CutAction());
@@ -196,18 +216,28 @@ public class GUIEditor {
         editMenu.add(copyItem);
         editMenu.add(pasteItem);
 
+        // Create a menubar and put 'File' and 'Edit' menus in it
+        // Then, add it to the frame
+        JMenuBar menuBar = new JMenuBar();
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
-
         frame.setJMenuBar(menuBar);
+
+        // set the needed properties of the frame and make it visible
         frame.setSize(800, 600);
         frame.setLocation(200, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
+        // put focus on the text pane (on the blinking cursor)
         textPane.requestFocusInWindow();
     }
 
+    /**
+     * Handles selecting different fonts. Sets the specified font to the selected text, and
+     * makes it the default font for the new text to be entered at the current caret position.
+     * After setting the font, the focus is put back to the cursor in the text pane.
+     */
     private class FontHandler implements ItemListener {
 
         public void itemStateChanged(ItemEvent event) {
@@ -219,6 +249,11 @@ public class GUIEditor {
         }
     }
 
+    /**
+     * Handles selecting different text size. Changes the size of the selected text, and
+     * makes it the default text size for the new text to be entered at the current caret position.
+     * After setting the text size, the focus is put back to the cursor in the text pane.
+     */
     private class TextSizeHandler implements ItemListener {
 
         public void itemStateChanged(ItemEvent event) {
@@ -230,6 +265,12 @@ public class GUIEditor {
         }
     }
 
+    /**
+     * Handles setting the style of the selected text to either bold, italic or underline via
+     * three separate buttons. Changes the style of the selected text, and makes it the default
+     * style for the new text to be entered at the current caret position.
+     * Afterwards, the focus is put back to the cursor in the text pane.
+     */
     private class boldItalicUnderlineHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -250,6 +291,9 @@ public class GUIEditor {
         }
     }
 
+    /**
+     * Handles setting the foreground color of the selected text.
+     */
     private class ColorHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -264,6 +308,14 @@ public class GUIEditor {
         }
     }
 
+    /**
+     * Handles inserting an image in the text pane.
+     * The image is placed as a button, having the icon with the image specified.
+     * The pop-up file chooser menu is used to select the image.
+     * <p>
+     * A focus handler is added to the image afterwards, and the focus is brought
+     * back to the cursor in the text pane.
+     */
     private class ImageHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -282,6 +334,13 @@ public class GUIEditor {
             }
         }
 
+        /**
+         * The pop-up file chooser menu appears for the user to select the image
+         * from his file tree. The files in the file tree are filtered so as to only
+         * display the ones with the extensions of "png", "jpg" or "gif".
+         *
+         * @return File object pointing to the needed image
+         */
         private File choosePictureFile() {
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG, JPG & GIF Images", "png", "jpg", "gif");
@@ -295,18 +354,38 @@ public class GUIEditor {
         }
     }
 
+    /**
+     * Handles both appearing mouse focus on the existing image in the text pane
+     * as well as losing mouse focus.
+     * <p>
+     * The button object behind an image changes its border color to gray instead
+     * of white, thus making the effect of the image having been selected, and changes
+     * back to white after the mouse focus is lost.
+     */
     private class ImageFocusHandler implements FocusListener {
 
+        /**
+         * Make the image containing button's border gray on focus gained
+         */
         public void focusGained(FocusEvent event) {
             JButton button = (JButton) event.getComponent();
             button.setBorder(new LineBorder(Color.GRAY));
         }
 
+        /**
+         * Make the image containing button's border white (ie. invisible) on focus lost
+         */
         public void focusLost(FocusEvent event) {
             ((JButton) event.getComponent()).setBorder(new LineBorder(Color.WHITE));
         }
     }
 
+    /**
+     * Handles setting the alignment of the selected text to either left, center, right, or
+     * justified via four separate buttons. Changes the alignment of the selected text, and
+     * makes it the default style for the new text to be entered at the current caret position.
+     * Afterwards, the focus is put back to the cursor in the text pane.
+     */
     private class TextAlignHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -319,6 +398,16 @@ public class GUIEditor {
         }
     }
 
+    /**
+     * Handles opening a new empty document
+     * <p>
+     * Beforehand, moves existing attributes of textPane (in the form
+     * of an immutable attribute set object) to the new mutable simple attribute
+     * set object and attaches it again to the text pane.
+     * <p>
+     * Then, sets the text pane's document to a new styled document, and updates
+     * the frame's title.
+     */
     private class NewFileHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -331,9 +420,21 @@ public class GUIEditor {
             file = null;
             frame.setTitle("txedt - Untitled");
         }
-
     }
 
+    /**
+     * Handles opening a file and saving to a file
+     * <p>
+     * The pop-up file chooser menu is used to select the file or enter a new file
+     * name. Then, the file of the type {@link File} is stored in a variable.
+     * <p>
+     * The open and save operations are performed in a separate thread, and are
+     * handled by {@link FileOpener} and {@link FileSaver} classes. The current
+     * frame, text pane and file variable are passed to these classes.
+     *
+     * @see FileOpener
+     * @see FileSaver
+     */
     private class OpenSaveFileHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -353,6 +454,19 @@ public class GUIEditor {
             }
         }
 
+        /**
+         * The pop-up file chooser menu appears for the user to select the file
+         * from his file tree. The user can also enter a file name in the text
+         * field (more relevant when saving to a file).
+         * <p>
+         * In the future versions the files in the file tree will filtered
+         * to only display the ones with the extensions of "edt". Also, a prompt
+         * will open with the warning if the user selects to save to an existing
+         * file (ie. overwrite it).
+         *
+         * @return File object pointing to the selected/entered file. In case of
+         * saving to a new file, the file is created at first.
+         */
         private File chooseFile() {
             JFileChooser chooser = new JFileChooser();
 

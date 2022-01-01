@@ -179,7 +179,7 @@ public final class CMDEditor {
     }
 
     /**
-     * Creates another thread and saves the current * document to a file
+     * Creates another thread and saves the current document to a file
      * <p>
      * In the newer version, the notification message will be
      * generated about the successful write to a file

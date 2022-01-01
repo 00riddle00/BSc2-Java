@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 /**
- * Saves the current document being edited * to a file as a styled document
+ * Saves the current document being edited to a file as a styled document
  * Works in a separate thread.
  */
 public class FileSaver implements Runnable {
@@ -30,6 +30,16 @@ public class FileSaver implements Runnable {
         this.frame = frame;
     }
 
+    public void run() {
+        try {
+            this.saveToFile();
+        } catch (IOException e) {
+            System.out.println("[Error]: Cannot write document to a file");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
     /**
      * Gets the document object that is associated with the text pane,
      * casts it to a styled document object and saves it to a file using
@@ -38,23 +48,16 @@ public class FileSaver implements Runnable {
      * Then, changes the title of the frame to represent the newly saved
      * filename. This is done via Swing invokeLater() method, which passes
      * the code for the Event Dispatch Thread to run.
-     *
+     * <p>
      * @throws IOException if there is a problem writing the document to a file
      */
-    public void run() {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(this.file + ".edt");
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject((DefaultStyledDocument) textPane.getDocument());
-            objectOut.flush();
-            objectOut.close();
-        } catch (IOException e) {
-            System.out.println("[Error]: Cannot write document to a file");
-            e.printStackTrace();
-            System.exit(1);
-        }
+    private void saveToFile() throws IOException {
+        FileOutputStream fileOut = new FileOutputStream(this.file + ".edt");
+        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+        objectOut.writeObject((DefaultStyledDocument) textPane.getDocument());
+        objectOut.flush();
+        objectOut.close();
 
         SwingUtilities.invokeLater(() -> frame.setTitle("txedt - " + file.getName()));
     }
 }
-

@@ -45,6 +45,22 @@ public class FileOpener implements Runnable {
         this.file = file;
     }
 
+    public void run() {
+        try {
+            this.openFile();
+        } catch (FileNotFoundException e) {
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame, "File not found"));
+        } catch (ClassNotFoundException e) {
+            System.out.println("[Error]: Cannot read from a file");
+            e.printStackTrace();
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("[Error]: Cannot open file '" + file + "'");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
     /**
      * Opens the file specified as a styled document object.
      * <p>
@@ -65,7 +81,7 @@ public class FileOpener implements Runnable {
      * @throws ClassNotFoundException if there are problems reading from a file via object input stream
      * @throws IOException            if other problems occur while reading a file
      */
-    public void run() {
+    private void openFile() throws FileNotFoundException, ClassNotFoundException, IOException {
         try {
             Optional<String> ext = getFileExtension(this.file.getName());
 
@@ -78,16 +94,8 @@ public class FileOpener implements Runnable {
 
             this.styledDoc = (DefaultStyledDocument) objectIn.readObject();
             objectIn.close();
-        } catch (FileNotFoundException e) {
-            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame, "File not found"));
-        } catch (ClassNotFoundException e) {
-            System.out.println("[Error]: Cannot read from a file");
-            e.printStackTrace();
-            System.exit(1);
-        } catch (IOException e) {
-            System.out.println("[Error]: Cannot open file '" + file + "'");
-            e.printStackTrace();
-            System.exit(1);
+        } catch (ClassNotFoundException | IOException e) {
+            throw e;
         }
 
         SwingUtilities.invokeLater(() -> {
@@ -100,6 +108,9 @@ public class FileOpener implements Runnable {
     /**
      * Uses an iterator to iterate over all the images in the newly
      * opened document and adds a focus handler to each image.
+     *
+     * @param doc the styled document object, created from the opened
+     *            file's contents.
      */
     private void addFocusPropertyToImages(StyledDocument doc) {
         ElementIterator it = new ElementIterator(doc);
@@ -127,7 +138,13 @@ public class FileOpener implements Runnable {
 
     /**
      * Gets the extension of a file, by using and functional programming
-     * elements - Optional class with filter and map actions.
+     * elements - Optional class with parametrized type together with
+     * filter and map function application.
+     *
+     * @param filename the new of the file opened
+     *
+     * @return Optional string which is either null or contains the file
+     * extension.
      */
     private Optional<String> getFileExtension(String filename) {
         return Optional.ofNullable(filename)
