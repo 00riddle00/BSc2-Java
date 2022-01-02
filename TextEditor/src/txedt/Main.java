@@ -38,13 +38,13 @@ public class Main {
             System.out.println("[Error]: Too many arguments");
             System.exit(1);
         } else if (args[0].equals("--terminal")) {
+            String[] _args;
             if (args.length > 1) {
-                String[] _args = {args[1]};
-                CMDEditor.begin(_args);
+                _args = new String[]{args[1]};
             } else {
-                String[] _args = {};
-                CMDEditor.begin(_args);
+                _args = new String[]{};
             }
+            CMDEditor.begin(_args);
         } else {
             GUIEditor.begin(args);
         }

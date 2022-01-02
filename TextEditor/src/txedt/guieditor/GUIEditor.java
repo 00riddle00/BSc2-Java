@@ -34,10 +34,10 @@ public class GUIEditor {
             "SauceCodePro Nerd Font", "SauceCodePro Nerd Font Mono", "Serif", "Source Code Pro", "Symbola"};
     private JComboBox textSizeDropdown;
     private String textSizes[] = {"8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"};
-    private JComboBox workaround;
     private String workaroundArray[] = {"0", "1", "2", "3", "4", "5"};
-    private String alignments[] = {"Left", "Center", "Right", "Justified"};
+    private JComboBox workaround;
     private JButton alignmentButtons[];
+    private String alignments[] = {"Left", "Center", "Right", "Justified"};
 
     /**
      * Firstly, sets the fonts, look and feel via UIManager.
@@ -105,21 +105,21 @@ public class GUIEditor {
         JButton boldButton = new JButton(boldIcon);
         boldButton.setPreferredSize(new Dimension(30, 30));
         boldButton.setActionCommand("Bold");
-        boldButton.addActionListener(new boldItalicUnderlineHandler());
+        boldButton.addActionListener(new BoldItalicUnderlineHandler());
         boldButton.addActionListener(actionEvent -> textPane.requestFocusInWindow());
 
         Icon italicIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/Italic.png"));
         JButton italicButton = new JButton(italicIcon);
         italicButton.setPreferredSize(new Dimension(30, 30));
         italicButton.setActionCommand("Italic");
-        italicButton.addActionListener(new boldItalicUnderlineHandler());
+        italicButton.addActionListener(new BoldItalicUnderlineHandler());
         italicButton.addActionListener(actionEvent -> textPane.requestFocusInWindow());
 
         Icon underlineIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/Underline.png"));
         JButton underlineButton = new JButton(underlineIcon);
         underlineButton.setPreferredSize(new Dimension(30, 30));
         underlineButton.setActionCommand("Underline");
-        underlineButton.addActionListener(new boldItalicUnderlineHandler());
+        underlineButton.addActionListener(new BoldItalicUnderlineHandler());
         underlineButton.addActionListener(actionEvent -> textPane.requestFocusInWindow());
 
         Icon setColorIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/setColor.png"));
@@ -271,7 +271,7 @@ public class GUIEditor {
      * style for the new text to be entered at the current caret position.
      * Afterwards, the focus is put back to the cursor in the text pane.
      */
-    private class boldItalicUnderlineHandler implements ActionListener {
+    private class BoldItalicUnderlineHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
             switch (event.getActionCommand()) {
@@ -319,7 +319,7 @@ public class GUIEditor {
     private class ImageHandler implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
-            File image = choosePictureFile();
+            File image = chooseImageFile();
 
             if (image != null) {
                 ImageIcon icon = new ImageIcon(image.toString());
@@ -341,7 +341,7 @@ public class GUIEditor {
          *
          * @return File object pointing to the needed image
          */
-        private File choosePictureFile() {
+        private File chooseImageFile() {
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG, JPG & GIF Images", "png", "jpg", "gif");
             chooser.setFileFilter(filter);
