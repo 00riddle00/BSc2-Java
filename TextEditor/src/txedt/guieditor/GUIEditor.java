@@ -1,5 +1,6 @@
 package txedt.guieditor;
 
+import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 import txedt.guieditor.fileio.FileSaver;
 import txedt.guieditor.fileio.FileOpener;
 
@@ -10,7 +11,6 @@ import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.*;
 import javax.swing.text.DefaultEditorKit.*;
 import javax.swing.text.StyledEditorKit.*;
@@ -62,7 +62,7 @@ public class GUIEditor {
         UIManager.put("ColorChooser.font", getNewFont(12));
         UIManager.put("ComboBox.font", getNewFont(12));
 
-        UIManager.setLookAndFeel(new MetalLookAndFeel());
+        UIManager.setLookAndFeel(new GTKLookAndFeel());
 
         SwingUtilities.invokeLater(() -> new GUIEditor().createAndShowGui());
     }
