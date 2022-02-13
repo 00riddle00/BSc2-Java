@@ -1,0 +1,66 @@
+@startuml
+start
+
+#64d2fa:Vartotojas paleidžia programą;
+
+#64d2fa:if (Vartotojas pateikė failo pavadinimą kaip programos argumentą?) then (Taip)
+    #64d2fa:if (Failo plėtinys yra .edt?) then (Taip)
+    else (Ne)
+    #64d2fa:Programa atidaro pranešimo langą su rekomendacija naudoti .edt plėtinį;
+    endif
+#64d2fa:Programa atidaro teksto redaktorių su nurodytu failu redagavimo lange;
+else (Ne)
+#64d2fa:Programa atidaro teksto redaktorių su tuščiu redagavimo langu;
+endif
+
+#64d2fa:if (Vartotojas, pasinaudodamas meniu, atidaro failą) then (Taip)
+#64d2fa:Programa redagavimo lange pakrauna dokumentą, nuskaitytą iš failo;
+else (Ne)
+endif
+
+#64d2fa:if (Vartotojas, pasinaudodamas įrankiu panele, nustato stilių tekstui?) then (Taip)
+#64d2fa:Programa nustato stilių būsimam tekstui, kuris bus įvestas nuo esamos kursoriaus padėties;
+else (Ne)
+endif
+
+#64d2fa:if (Vartotojas įveda tekstą klaviatūra arba įklijuodamas jį?) then (Taip)
+#64d2fa:Programa redagavimo lange atvaizduoja naujai įvestą tekstą, ir, jei buvo nustatyti teksto stiliaus parametrai, pritaiko juos tekstui;
+else (Ne)
+endif
+
+#64d2fa:Vartotojas toliau redaguoja dokumentą: be teksto įvedimo jis taip pat gali įkrauti paveiksliukus, pažymėti esamą dokumento dalį, pritaikyti jai teksto stilius;
+#64d2fa:Programa reaguoja į varotojo veiksmus grafinėje sąsajoje, realiu laiku atvaizduoja dokumento pokyčius;
+
+#64d2fa:if (Įvyko klaida/išimtis redagavimo metu?) then (Taip)
+#64d2fa: Programa išveda klaidos pranešimą ir baigia darbą;
+stop
+else (Ne)
+endif
+
+#64d2fa:Vartotojas baigia redagavimo darbus;
+
+#64d2fa:if (Vartotojas pasirenka išsaugoti dokumentą?) then (Taip)
+#64d2fa:Programa atidaro failų medį, ir leidžia pasirinkti arba įvesti failo vardą;
+#64d2fa:Vartotojas pasirenka norimą failą;
+
+#64d2fa:if (Ar pasirinktas failas jau egizstuoja?) then (Taip)
+#64d2fa:Programa yra pasiruošusi perrašyti šio failo turinį;
+else (Ne)
+#64d2fa:Programa sukuria naują failą;
+endif
+
+#64d2fa:if (Įvyko klaida/išimtis rašymo į failą metu?) then (Taip)
+#64d2fa: Programa išveda klaidos pranešimą ir baigia darbą;
+stop
+else (Ne)
+endif
+
+#64d2fa:Programa išsaugo dokumentą į failą;
+else (Ne)
+endif
+
+#64d2fa:Vartotojas uždaro programą;
+#64d2fa:Programa baigia darbą. Jei nauji pokyčiai nebuvo išsaugoti į failą, jie tampa prarasti;
+
+stop
+@enduml
